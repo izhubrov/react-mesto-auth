@@ -7,46 +7,46 @@ import PopupWithForm from './PopupWithForm.js';
 import ImagePopup from './ImagePopup.js';
 import ErrorPopup from './ErrorPopup.js';
 
-// import {apiSettings, validationSettings, submitButtonsTexts, btnAdd, btnEdit, avatarEdit,
-//   popupProfileForm, popupCardForm, popupAvatarForm,
-//   popupProfileInputName as inputName, popupProfileInputAbout as inputAbout}
-//   from '../utils/constants.js';
-
 function App() {
 
-  const [isPopupOpen, setPopupOpened] = React.useState({isEditAvatarPopupOpen: false, isEditProfilePopupOpen: false, isAddPlacePopupOpen: false })
+  const [isPopupFormOpen, setPopupOpened] = React.useState({isEditAvatarPopupOpen: false, isEditProfilePopupOpen: false, isAddPlacePopupOpen: false })
   
-  // React.useEffect(()=> handleEditProfileClick, [isEditProfilePopupOpen]);
+  const [selectedCard, setSelectedCard] = React.useState({});
 
-  // React.useEffect(()=> handleAddPlaceClick, [isAddPlacePopupOpen]);
-
-  // React.useEffect(()=> handleEditAvatarClick, [isEditAvatarPopupOpen]);
-
+  const [error, setError] = React.useState('');
 
   function handleEditAvatarClick() {
-    setPopupOpened({...isPopupOpen, isEditAvatarPopupOpen: true });
+    setPopupOpened({...isPopupFormOpen, isEditAvatarPopupOpen: true });
   }
 
   function handleEditProfileClick() {
-    setPopupOpened({...isPopupOpen, isEditProfilePopupOpen: true });
+    setPopupOpened({...isPopupFormOpen, isEditProfilePopupOpen: true });
   }
 
   function handleAddPlaceClick() {
-    setPopupOpened({...isPopupOpen, isAddPlacePopupOpen: true });
+    setPopupOpened({...isPopupFormOpen, isAddPlacePopupOpen: true });
+  }
+
+  function handleCardClick(card) {
+    setSelectedCard(card);
   }
 
   function closeAllPopups() {
-    Object.keys(isPopupOpen).forEach((item)=>setPopupOpened(isPopupOpen[item] = false));
-    // setPopupOpened({isEditProfilePopupOpen: false, isAddPlacePopupOpen: false, isEditAvatarPopupOpen: false});
+    Object.keys(isPopupFormOpen).forEach((item)=>setPopupOpened(isPopupFormOpen[item] = false));
+    setSelectedCard({});
+  }
+
+  function setErrorPopup(errorText) {
+    setError(errorText);
   }
 
   return (
     <div className="page">
 
       <Header />
-      <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick}/>
+      <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} onError={setErrorPopup}/>
       <Footer />
-      <PopupWithForm title='Редактировать профиль' name='profile' buttonSubmitText='Сохранить' isOpen={isPopupOpen.isEditProfilePopupOpen} onClose={closeAllPopups}>
+      <PopupWithForm title='Редактировать профиль' name='profile' buttonSubmitText='Сохранить' isOpen={isPopupFormOpen.isEditProfilePopupOpen} onClose={closeAllPopups}>
         <fieldset className="popup__set">
           <label className="popup__field">
             <input type="text" name="name" placeholder="Имя" className="popup__input popup__input_type_name" required minLength="2" maxLength="40" />
@@ -60,7 +60,7 @@ function App() {
         </fieldset>
       </PopupWithForm>
 
-      <PopupWithForm title='Новое место' name='card' buttonSubmitText='Создать' isOpen={isPopupOpen.isAddPlacePopupOpen} onClose={closeAllPopups}>
+      <PopupWithForm title='Новое место' name='card' buttonSubmitText='Создать' isOpen={isPopupFormOpen.isAddPlacePopupOpen} onClose={closeAllPopups}>
       <fieldset className = "popup__set">
               <label className="popup__field">
                 <input type="text" name="title" placeholder="Название" className="popup__input popup__input_type_title" required minLength="2" maxLength="30" />
@@ -73,7 +73,7 @@ function App() {
             </fieldset>
       </PopupWithForm>
 
-      <PopupWithForm title='Обновить аватар' name='avatar' buttonSubmitText='Сохранить' isOpen={isPopupOpen.isEditAvatarPopupOpen} onClose={closeAllPopups}>
+      <PopupWithForm title='Обновить аватар' name='avatar' buttonSubmitText='Сохранить' isOpen={isPopupFormOpen.isEditAvatarPopupOpen} onClose={closeAllPopups}>
         <fieldset className = "popup__set">
           <label className="popup__field">
             <input type="url" name="link" placeholder="Ссылка на картинку" className="popup__input popup__input_type_link" required />
@@ -84,9 +84,9 @@ function App() {
 
       <PopupWithForm title='Вы уверены?' name='remove' buttonSubmitText='Да' />
 
-      <ImagePopup />
+      <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
 
-      <ErrorPopup />
+      <ErrorPopup errorText={error}/>
 
       <template className="card-template">
       <li className="cards__item">
