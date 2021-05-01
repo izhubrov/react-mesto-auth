@@ -1,6 +1,6 @@
-import {apiSettings} from './utils.js';
+import { apiSettings } from "./utils.js";
 class Api {
-  constructor ({baseUrl, groupId, token}) {
+  constructor({ baseUrl, groupId, token }) {
     this._baseUrl = baseUrl;
     this._groupId = groupId;
     this._token = token;
@@ -17,102 +17,93 @@ class Api {
   getUser() {
     return fetch(`${this._baseUrl}/${this._groupId}/users/me`, {
       headers: {
-        authorization: this._token
-      }
-    })
-      .then(this._checkResponse)
+        authorization: this._token,
+      },
+    }).then(this._checkResponse);
   }
 
   getCards() {
     return fetch(`${this._baseUrl}/${this._groupId}/cards`, {
       headers: {
-        authorization: this._token
-      }
-    })
-      .then(this._checkResponse);
+        authorization: this._token,
+      },
+    }).then(this._checkResponse);
   }
 
   patchUserInfo(user) {
     return fetch(`${this._baseUrl}/${this._groupId}/users/me`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: {
         authorization: this._token,
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         name: user.name,
-        about: user.about
-      })
-    })
-      .then(this._checkResponse);
+        about: user.about,
+      }),
+    }).then(this._checkResponse);
   }
 
   postCard(card) {
     return fetch(`${this._baseUrl}/${this._groupId}/cards`, {
-      method: 'POST',
+      method: "POST",
       headers: {
         authorization: this._token,
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         name: card.name,
-        link: card.link
-      })
-    })
-      .then(this._checkResponse)
+        link: card.link,
+      }),
+    }).then(this._checkResponse);
   }
 
   deleteCard(card) {
     return fetch(`${this._baseUrl}/${this._groupId}/cards/${card._id}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
         authorization: this._token,
-      }
-    })
-      .then(this._checkResponse)
+      },
+    }).then(this._checkResponse);
   }
 
   likeCard(card) {
     return fetch(`${this._baseUrl}/${this._groupId}/cards/likes/${card._id}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
         authorization: this._token,
-      }
-    })
-      .then(this._checkResponse)
+      },
+    }).then(this._checkResponse);
   }
 
   dislikeCard(card) {
     return fetch(`${this._baseUrl}/${this._groupId}/cards/likes/${card._id}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
         authorization: this._token,
-      }
-    })
-      .then(this._checkResponse)
+      },
+    }).then(this._checkResponse);
   }
 
   getCountsOfLikes(card) {
     return fetch(`${this._baseUrl}/${this._groupId}/cards/likes/${card._id}`, {
       headers: {
-        authorization: this._token
-      }
-    })
-      .then(this._checkResponse)
+        authorization: this._token,
+      },
+    }).then(this._checkResponse);
   }
 
   changeAvatar(link) {
     return fetch(`${this._baseUrl}/${this._groupId}/users/me/avatar`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: {
         authorization: this._token,
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-          avatar: link
-        })
-      })
-      .then(this._checkResponse)
+        avatar: link,
+      }),
+    }).then(this._checkResponse);
   }
 }
 
