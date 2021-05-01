@@ -1,4 +1,4 @@
-import {apiSettings} from './constants.js';
+import {apiSettings} from './utils.js';
 class Api {
   constructor ({baseUrl, groupId, token}) {
     this._baseUrl = baseUrl;
@@ -7,7 +7,7 @@ class Api {
   }
 
   _checkResponse(res) {
-    if (!res.ok) {
+    if (res.ok) {
       return res.json();
     } else {
       return Promise.reject(`Ошибка ${res.status}`);
@@ -116,5 +116,5 @@ class Api {
   }
 }
 
-export const api = new Api(apiSettings);
-// export {api};
+const api = new Api(apiSettings);
+export default api;

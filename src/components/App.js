@@ -9,11 +9,9 @@ import ErrorPopup from './ErrorPopup.js';
 
 function App() {
 
-  const [isPopupFormOpen, setPopupOpened] = React.useState({isEditAvatarPopupOpen: false, isEditProfilePopupOpen: false, isAddPlacePopupOpen: false })
-  
+  const [isPopupFormOpen, setPopupOpened] = React.useState({isEditAvatarPopupOpen: false, isEditProfilePopupOpen: false, isAddPlacePopupOpen: false });
   const [selectedCard, setSelectedCard] = React.useState({});
-
-  const [error, setError] = React.useState('');
+  const [error, setError] = React.useState({errorText: '', isActive: false});
 
   function handleEditAvatarClick() {
     setPopupOpened({...isPopupFormOpen, isEditAvatarPopupOpen: true });
@@ -36,8 +34,8 @@ function App() {
     setSelectedCard({});
   }
 
-  function setErrorPopup(errorText) {
-    setError(errorText);
+  function setErrorPopup(err,active) {
+    setError({...error, errorText: err, isActive: active});
   }
 
   return (
@@ -46,13 +44,13 @@ function App() {
       <Header />
       <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} onError={setErrorPopup}/>
       <Footer />
+
       <PopupWithForm title='Редактировать профиль' name='profile' buttonSubmitText='Сохранить' isOpen={isPopupFormOpen.isEditProfilePopupOpen} onClose={closeAllPopups}>
         <fieldset className="popup__set">
           <label className="popup__field">
             <input type="text" name="name" placeholder="Имя" className="popup__input popup__input_type_name" required minLength="2" maxLength="40" />
             <span className="popup__input-error popup__input-error_type_name"></span>
           </label>
-
           <label className="popup__field">
             <input type="text" name="about" placeholder="О себе" className="popup__input popup__input_type_about" required minLength="2" maxLength="200" />
             <span className="popup__input-error popup__input-error_type_about"></span>
@@ -86,21 +84,7 @@ function App() {
 
       <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
 
-      <ErrorPopup errorText={error}/>
-
-      <template className="card-template">
-      <li className="cards__item">
-        <img className="cards__image" src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg" alt="" />
-        <button type="button" aria-label="Удалить" className="cards__btn-remove"></button>
-        <div className="cards__description">
-          <h2 className="cards__title text-cut"></h2>
-          <div className="cards__likes-container">
-            <button type="button" aria-label="Нравится" className="cards__btn-like"></button>
-            <div className="cards__likes-counter"></div>
-          </div>
-        </div>
-      </li>
-      </template>
+      <ErrorPopup errorText={error.errorText} isActive={error.isActive}/>
       
     </div>
   );

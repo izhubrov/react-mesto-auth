@@ -1,7 +1,6 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
 import '../index.css';
-import {api} from '../utils/Api.js';
+import api from '../utils/Api.js';
 import Card from './Card.js';
 
 function Main ({onEditProfile, onAddPlace, onEditAvatar, onCardClick, onError}) {
@@ -15,10 +14,16 @@ function Main ({onEditProfile, onAddPlace, onEditAvatar, onCardClick, onError}) 
     const promiseGetCards = api.getCards();
     Promise.all([promiseGetUser, promiseGetCards])
     .then((arrayOfObjectsUserAndCards) => {
-      setUserInfo({userName: arrayOfObjectsUserAndCards[0].name, userDescription: arrayOfObjectsUserAndCards[0].about, userAvatar: arrayOfObjectsUserAndCards[0].avatar});
+      setUserInfo({userName: arrayOfObjectsUserAndCards[0].name,
+                  userDescription: arrayOfObjectsUserAndCards[0].about,
+                  userAvatar: arrayOfObjectsUserAndCards[0].avatar
+                 });
       setCards(arrayOfObjectsUserAndCards[1]);
     })
-    .catch((err) => onError(err));
+    .catch((err) => {
+      onError(err,true);
+      setTimeout(()=>onError(err,false),5000);
+    });
   },[]);
 
   return (
