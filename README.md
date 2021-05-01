@@ -1,8 +1,8 @@
 # Проект: Место на React
 Данный проект представляет собой одностраничный сайт написанный с помощью JavaScript биботеки React с помощью [Create React App](https://github.com/facebook/create-react-app).
 
-* Страница сайта расположена по адресу: https://izhubrov.github.io/mesto/.
-* Собранный проект расположен по адресу: https://github.com/izhubrov/mesto.
+* Страница сайта расположена по адресу: https://izhubrov.github.io/mesto-react/.
+* Собранный проект расположен по адресу: https://github.com/izhubrov/mesto-react.
 * Применяемое API, сервер:  https://mesto.nomoreparties.co
 ___
 ## Макет сайта
