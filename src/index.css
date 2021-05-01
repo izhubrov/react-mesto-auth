@@ -34,10 +34,10 @@
 @import url(./blocks/popup/__figure/popup__figure.css);
 @import url(./blocks/popup/__image/popup__image.css);
 @import url(./blocks/popup/__caption/popup__caption.css);
-@import url(./blocks/popup/__opened/popup__opened.css);
+@import url(./blocks/popup/_opened/popup_opened.css);
 
 @import url(./blocks/error-popup/error-popup.css);
-@import url(./blocks/error-popup/__opened/error-popup__opened.css);
+@import url(./blocks/error-popup/_opened/error-popup_opened.css);
 @import url(./blocks/error-popup/__title/error-popup__title.css);
 
 
