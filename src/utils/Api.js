@@ -14,7 +14,7 @@ class Api {
     }
   }
 
-  getUser() {
+  getUserInfo() {
     return fetch(`${this._baseUrl}/${this._groupId}/users/me`, {
       headers: {
         authorization: this._token,
@@ -30,7 +30,7 @@ class Api {
     }).then(this._checkResponse);
   }
 
-  patchUserInfo(user) {
+  setUserInfo(user) {
     return fetch(`${this._baseUrl}/${this._groupId}/users/me`, {
       method: "PATCH",
       headers: {
@@ -67,18 +67,9 @@ class Api {
     }).then(this._checkResponse);
   }
 
-  likeCard(card) {
+  changeLikeCardStatus(card, likeCardStatus) {
     return fetch(`${this._baseUrl}/${this._groupId}/cards/likes/${card._id}`, {
-      method: "PUT",
-      headers: {
-        authorization: this._token,
-      },
-    }).then(this._checkResponse);
-  }
-
-  dislikeCard(card) {
-    return fetch(`${this._baseUrl}/${this._groupId}/cards/likes/${card._id}`, {
-      method: "DELETE",
+      method: (likeCardStatus ? "PUT": "DELETE"),
       headers: {
         authorization: this._token,
       },

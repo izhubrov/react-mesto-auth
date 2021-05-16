@@ -1,6 +1,7 @@
+import React from "react";
 import headerLogo from "../images/headerlogo.svg";
 
-function Header() {
+const Header = React.memo(()=>{
   return (
     <header className="header page__container">
       <img
@@ -10,6 +11,6 @@ function Header() {
       />
     </header>
   );
-}
+})
 
 export default Header;
