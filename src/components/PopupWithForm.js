@@ -1,11 +1,6 @@
 import React from "react";
 
 function PopupWithForm({ title, name, buttonSubmitText, children, isOpen, onClose, onSubmit, buttonSubmitState }) {
-  
-  React.useEffect(()=> document.addEventListener('mousedown', (evt)=>{
-    if (evt.target.classList.contains('popup')) {
-      onClose();
-    }}),[]);
 
   return (
     <div className={`popup ${isOpen ? "popup_opened" : ""}`}>

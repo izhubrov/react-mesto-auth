@@ -2,11 +2,6 @@ import React from 'react';
 
 function ImagePopup({ card, onClose }) {
 
-  React.useEffect(()=> document.addEventListener('mousedown', (evt)=>{
-    if (evt.target.classList.contains('popup')) {
-      onClose();
-    }}),[]);
-
   return (
     <div
       className={`popup popup_type_img ${

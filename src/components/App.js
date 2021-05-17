@@ -60,23 +60,23 @@ function App() {
 
   function handleUpdateAvatar({ avatar }) {
     checkImage(avatar)
-    .then(()=> {
-      setSubmitTextAvatarPopup('Сохранение...');
-      api
-        .changeAvatar(avatar)
-        .then((updatedUser) => {
-          setCurrentUser({ ...currentUser, avatar: updatedUser.avatar });
-          closeAllPopups();
-        })
-    })
-    .catch(() => {
-      setErrorPopup('Ошибка адреса', true);
-      setTimeout(() => setErrorPopup('Ошибка адреса', false), 5000);
-    });
+      .then(() => {
+        setSubmitTextAvatarPopup('Сохранение...');
+        api
+          .changeAvatar(avatar)
+          .then((updatedUser) => {
+            setCurrentUser({ ...currentUser, avatar: updatedUser.avatar });
+            closeAllPopups();
+          })
+      })
+      .catch(() => {
+        setErrorPopup('Ошибка адреса', true);
+        setTimeout(() => setErrorPopup('Ошибка адреса', false), 5000);
+      });
   }
 
   function checkImage(link) {
-    return new Promise((resolve,reject) => {
+    return new Promise((resolve, reject) => {
       const img = document.createElement('img');
       img.src = link;
       img.onload = resolve;
@@ -87,18 +87,18 @@ function App() {
 
   function handleAddCard(card) {
     checkImage(card.link)
-    .then (()=>{
-      setSubmitTextAddPlacePopup('Добавление...');
-      api.postCard(card)
-        .then((newCard) => {
-          setCards([newCard, ...cards]);
-          closeAllPopups();
-        })
-    })
-    .catch(() => {
-      setErrorPopup('Ошибка адреса', true);
-      setTimeout(() => setErrorPopup('Ошибка адреса', false), 5000);
-    });
+      .then(() => {
+        setSubmitTextAddPlacePopup('Добавление...');
+        api.postCard(card)
+          .then((newCard) => {
+            setCards([newCard, ...cards]);
+            closeAllPopups();
+          })
+      })
+      .catch(() => {
+        setErrorPopup('Ошибка адреса', true);
+        setTimeout(() => setErrorPopup('Ошибка адреса', false), 5000);
+      });
   }
 
   function handleCardLike(card) {
@@ -173,6 +173,14 @@ function App() {
   function setErrorPopup(err, active) {
     setError({ ...error, errorText: err, isActive: active });
   }
+
+  React.useEffect(() =>
+    document.addEventListener('mousedown', (evt) => {
+      if (evt.target.classList.contains('popup')) {
+        closeAllPopups();
+      }
+    }), []);
+
 
   return (
     <div className="page">
