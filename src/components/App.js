@@ -59,31 +59,46 @@ function App() {
   }
 
   function handleUpdateAvatar({ avatar }) {
-    setSubmitTextAvatarPopup('Сохранение...');
-    api
-      .changeAvatar(avatar)
-      .then((updatedUser) => {
-        setCurrentUser({ ...currentUser, avatar: updatedUser.avatar });
-        closeAllPopups();
-      })
-      .catch((err) => {
-        setErrorPopup(err, true);
-        setTimeout(() => setErrorPopup(err, false), 5000);
-      });
+    checkImage(avatar)
+    .then(()=> {
+      setSubmitTextAvatarPopup('Сохранение...');
+      api
+        .changeAvatar(avatar)
+        .then((updatedUser) => {
+          setCurrentUser({ ...currentUser, avatar: updatedUser.avatar });
+          closeAllPopups();
+        })
+    })
+    .catch(() => {
+      setErrorPopup('Ошибка адреса', true);
+      setTimeout(() => setErrorPopup('Ошибка адреса', false), 5000);
+    });
+  }
+
+  function checkImage(link) {
+    return new Promise((resolve,reject) => {
+      const img = document.createElement('img');
+      img.src = link;
+      img.onload = resolve;
+      img.onerror = reject;
+      img.remove();
+    })
   }
 
   function handleAddCard(card) {
-    setSubmitTextAddPlacePopup('Добавление...');
-    api
-      .postCard(card)
-      .then((newCard) => {
-        setCards([newCard, ...cards]);
-        closeAllPopups();
-      })
-      .catch((err) => {
-        setErrorPopup(err, true);
-        setTimeout(() => setErrorPopup(err, false), 5000);
-      });
+    checkImage(card.link)
+    .then (()=>{
+      setSubmitTextAddPlacePopup('Добавление...');
+      api.postCard(card)
+        .then((newCard) => {
+          setCards([newCard, ...cards]);
+          closeAllPopups();
+        })
+    })
+    .catch(() => {
+      setErrorPopup('Ошибка адреса', true);
+      setTimeout(() => setErrorPopup('Ошибка адреса', false), 5000);
+    });
   }
 
   function handleCardLike(card) {

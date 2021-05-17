@@ -16,6 +16,7 @@ function ConfirmDeletePopup({isOpen, onClose, card, onSubmitDelete, buttonSubmit
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      buttonSubmitState="true"
     />
   );
 }

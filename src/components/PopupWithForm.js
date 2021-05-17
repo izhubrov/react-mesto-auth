@@ -1,4 +1,12 @@
-function PopupWithForm({ title, name, buttonSubmitText, children, isOpen, onClose, onSubmit }) {
+import React from "react";
+
+function PopupWithForm({ title, name, buttonSubmitText, children, isOpen, onClose, onSubmit, buttonSubmitState }) {
+  
+  React.useEffect(()=> document.addEventListener('mousedown', (evt)=>{
+    if (evt.target.classList.contains('popup')) {
+      onClose();
+    }}),[]);
+
   return (
     <div className={`popup ${isOpen ? "popup_opened" : ""}`}>
       <div className="popup__container popup__container_form">
@@ -6,7 +14,7 @@ function PopupWithForm({ title, name, buttonSubmitText, children, isOpen, onClos
         <button type="button" aria-label="Закрыть" className="popup__btn-close" onClick={onClose}></button>
         <form className="popup__form" name={`form-edit-${name}`} onSubmit={onSubmit} noValidate>
           {children}
-          <button type="submit" className="popup__btn-submit">{buttonSubmitText}</button>
+          <button type="submit" className={`popup__btn-submit ${!buttonSubmitState ? 'popup__btn-submit_inactive' :''}`} disabled={!buttonSubmitState ? true :''}>{buttonSubmitText}</button>
         </form>
       </div>
     </div>
