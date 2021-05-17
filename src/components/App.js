@@ -9,7 +9,7 @@ import AddPlacePopup from "./AddPlacePopup.js";
 import ConfirmDeletePopup from "./ConfirmDeletePopup.js";
 import ImagePopup from "./ImagePopup.js";
 import ErrorPopup from "./ErrorPopup.js";
-import api from "../utils/Api.js";
+import api from "../utils/api.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 
 function App() {
