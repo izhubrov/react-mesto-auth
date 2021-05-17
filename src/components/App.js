@@ -181,6 +181,13 @@ function App() {
       }
     }), []);
 
+  React.useEffect(() =>
+    document.addEventListener('keyup', (evt) => {
+      if (evt.key ==='Escape') {
+        closeAllPopups();
+      }
+    }), []);
+
 
   return (
     <div className="page">
