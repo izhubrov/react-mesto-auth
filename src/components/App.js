@@ -9,7 +9,7 @@ import AddPlacePopup from "./AddPlacePopup.js";
 import ConfirmDeletePopup from "./ConfirmDeletePopup.js";
 import ImagePopup from "./ImagePopup.js";
 import ErrorPopup from "./ErrorPopup.js";
-import api from "../utils/Api.js";
+import api from "../utils/api.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 
 function App() {
@@ -174,19 +174,33 @@ function App() {
     setError({ ...error, errorText: err, isActive: active });
   }
 
-  React.useEffect(() =>
-    document.addEventListener('mousedown', (evt) => {
+  React.useEffect(() => {
+    function handleOverlayClick(evt) {
       if (evt.target.classList.contains('popup')) {
         closeAllPopups();
       }
-    }), []);
+    }
+    document.addEventListener('mousedown', handleOverlayClick);
 
-  React.useEffect(() =>
-    document.addEventListener('keyup', (evt) => {
+    return () => {
+      document.removeEventListener('mousedown', handleOverlayClick);
+    }
+
+  },[]);
+
+  React.useEffect(() => {
+    function handleEscapeClick(evt) {
       if (evt.key ==='Escape') {
         closeAllPopups();
       }
-    }), []);
+    }
+    document.addEventListener('keyup', handleEscapeClick);
+
+    return () => {
+      document.removeEventListener('keyup', handleEscapeClick);
+    }
+
+  },[]);
 
 
   return (

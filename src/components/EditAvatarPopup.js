@@ -2,7 +2,7 @@ import React from 'react';
 import PopupWithForm from './PopupWithForm.js';
 
 function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, buttonSubmitText }) {
-  const avatarRef = React.useRef();
+  const [link, setLink] = React.useState('');
   const [isLinkInputValid, setLinkInputValid] = React.useState(true);
   const [linkValidationMessage, setLinkValidationMessage] = React.useState('');
   const [buttonSubmitState, setButtonSubmitState] = React.useState(false);
@@ -10,15 +10,16 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, buttonSubmitText }) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    onUpdateAvatar({avatar: avatarRef.current.value});
+    onUpdateAvatar({avatar: link});
   }
 
   //Валидация формы
-  function handleChange() {
-    if (!avatarRef.current.validity.valid) {
+  function handleChange(evt) {
+    setLink(evt.target.value);
+    if (!evt.target.validity.valid) {
       setLinkInputInitial(false);
       setLinkInputValid(false);
-      setLinkValidationMessage(avatarRef.current.validationMessage);
+      setLinkValidationMessage(evt.target.validationMessage);
     } else {
       setLinkInputInitial(false);
       setLinkInputValid(true);
@@ -29,7 +30,7 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, buttonSubmitText }) {
     setLinkInputValid(true);
     setButtonSubmitState(false);
     setLinkInputInitial(true);
-    avatarRef.current.value='';
+    setLink('');
   }, [isOpen]);
 
   React.useEffect(()=> {
@@ -54,7 +55,7 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, buttonSubmitText }) {
       <fieldset className="popup__set">
         <label className="popup__field">
           <input
-            ref={avatarRef}
+            value={link}
             type="url"
             name="link"
             placeholder="Ссылка на картинку"

@@ -1,7 +1,6 @@
 import React from 'react';
 
 function ImagePopup({ card, onClose }) {
-
   return (
     <div
       className={`popup popup_type_img ${
@@ -16,8 +15,8 @@ function ImagePopup({ card, onClose }) {
           onClick={onClose}
         ></button>
         <figure className="popup__figure">
-          <img className="popup__image" src={`${card.link}`} alt="" />
-          <figcaption className="popup__caption"></figcaption>
+          <img className="popup__image" src={`${card.link}`} alt={`Изображение ${card.name}`} />
+          <figcaption className="popup__caption">{card.name}</figcaption>
         </figure>
       </div>
     </div>
