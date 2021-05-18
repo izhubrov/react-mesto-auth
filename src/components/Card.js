@@ -27,7 +27,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
       <img
         className="cards__image"
         src={`${card.link}`}
-        alt=""
+        alt={`Изображение ${card.name}`}
         onClick={handleClick}
       />
       <button
