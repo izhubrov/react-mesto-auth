@@ -3,6 +3,13 @@
   border-bottom: 1px solid rgba(84,84,84, 0.7);
   padding-top: 45px;
   min-height: 73px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 18px;
+  line-height: 1.22;
+  font-weight: 400;
+  color: #fff;
 }
 
 @media screen and (max-width: 918px) {

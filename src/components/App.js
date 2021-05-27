@@ -1,4 +1,5 @@
 import React from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
 import "../index.css";
 import Header from "./Header.js";
 import Main from "./Main.js";
@@ -26,6 +27,12 @@ function App() {
   const [submitTextAddPlacePopup, setSubmitTextAddPlacePopup] = React.useState('Сохранить');
   const [submitTextConfirmDeletePopup, setSubmitTextConfirmDeletePopup] = React.useState('Да');
   const [cardToRemove, setCardToRemove] = React.useState({});
+
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+  React.useEffect(()=> {
+    setIsLoggedIn(true);
+  },[]);
 
 
   React.useEffect(() => {
@@ -205,18 +212,32 @@ function App() {
 
   return (
     <div className="page">
-      <CurrentUserContext.Provider value={currentUser}>
-        <Header />
-        <Main
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditAvatar={handleEditAvatarClick}
-          onCardClick={handleCardClick}
-          cards={cards}
-          onCardLike={handleCardLike}
-          onCardDelete={confirmCardDelete}
-        />
-        <Footer />
+      <CurrentUserContext.Provider value={currentUser, isLoggedIn}>
+      <Header />
+      <Switch>
+          <Route path="/sing-up">
+          </Route>
+          <Route path="/sing-in">
+          </Route>
+
+          <Route>
+            { !isLoggedIn ? <Redirect to="/sing-in" /> :
+            <>
+              <Main
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              onCardClick={handleCardClick}
+              cards={cards}
+              onCardLike={handleCardLike}
+              onCardDelete={confirmCardDelete}
+              />
+              <Footer /> 
+            </>
+            }
+          </Route>
+
+        </Switch>
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
