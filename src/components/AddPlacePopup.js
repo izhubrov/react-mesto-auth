@@ -47,23 +47,21 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, buttonSubmitText }) {
   }, [isNameInputValid, isLinkInputValid, isNameInputInitial, isLinkInputInitial ]);
 
   function checkNameValidation(inputElement) {
+    setNameInputInitial(false);
     if (!inputElement.validity.valid) {
-      setNameInputInitial(false);
       setNameInputValid(false);
       setNameValidationMessage(inputElement.validationMessage);
     } else {
-      setNameInputInitial(false);
       setNameInputValid(true);
     }
   }
 
   function checkLinkValidation(inputElement) {
+    setLinkInputInitial(false);
     if (!inputElement.validity.valid) {
-      setLinkInputInitial(false);
       setLinkInputValid(false);
       setLinkValidationMessage(inputElement.validationMessage);
     } else {
-      setLinkInputInitial(false);
       setLinkInputValid(true);
     }
   }

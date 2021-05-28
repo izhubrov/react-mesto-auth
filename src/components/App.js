@@ -1,7 +1,9 @@
 import React from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, useHistory } from "react-router-dom";
 import "../index.css";
 import Header from "./Header.js";
+import Login from "./Login.js";
+import Register from "./Register.js";
 import Main from "./Main.js";
 import Footer from "./Footer.js";
 import EditProfilePopup from "./EditProfilePopup.js";
@@ -15,25 +17,29 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 
 function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
-  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(
+    false
+  );
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
-  const [isConfirmDeletePopupOpen, setConfirmDeletePopupOpen] = React.useState(false);
+  const [isConfirmDeletePopupOpen, setConfirmDeletePopupOpen] = React.useState(
+    false
+  );
   const [selectedCard, setSelectedCard] = React.useState({});
   const [error, setError] = React.useState({ errorText: "", isActive: false });
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
-  const [submitTextProfilePopup, setSubmitTextProfilePopup] = React.useState('Сохранить');
-  const [submitTextAvatarPopup, setSubmitTextAvatarPopup] = React.useState('Сохранить');
-  const [submitTextAddPlacePopup, setSubmitTextAddPlacePopup] = React.useState('Сохранить');
-  const [submitTextConfirmDeletePopup, setSubmitTextConfirmDeletePopup] = React.useState('Да');
+  const [submitTextProfilePopup, setSubmitTextProfilePopup] = React.useState("Сохранить");
+  const [submitTextAvatarPopup, setSubmitTextAvatarPopup] = React.useState("Сохранить");
+  const [submitTextAddPlacePopup, setSubmitTextAddPlacePopup] = React.useState("Сохранить");
+  const [submitTextConfirmDeletePopup, setSubmitTextConfirmDeletePopup] = React.useState("Да");
   const [cardToRemove, setCardToRemove] = React.useState({});
 
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const history = useHistory();
 
-  React.useEffect(()=> {
-    setIsLoggedIn(true);
-  },[]);
-
+  React.useEffect(() => {
+    setIsLoggedIn(false);
+  }, []);
 
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getCards()])
@@ -48,7 +54,7 @@ function App() {
   }, []);
 
   function handleUpdateUser(user) {
-    setSubmitTextProfilePopup('Сохранение...');
+    setSubmitTextProfilePopup("Сохранение...");
     api
       .setUserInfo(user)
       .then((updatedUser) => {
@@ -68,43 +74,40 @@ function App() {
   function handleUpdateAvatar({ avatar }) {
     checkImage(avatar)
       .then(() => {
-        setSubmitTextAvatarPopup('Сохранение...');
-        api
-          .changeAvatar(avatar)
-          .then((updatedUser) => {
-            setCurrentUser({ ...currentUser, avatar: updatedUser.avatar });
-            closeAllPopups();
-          })
+        setSubmitTextAvatarPopup("Сохранение...");
+        api.changeAvatar(avatar).then((updatedUser) => {
+          setCurrentUser({ ...currentUser, avatar: updatedUser.avatar });
+          closeAllPopups();
+        });
       })
       .catch(() => {
-        setErrorPopup('Ошибка адреса', true);
-        setTimeout(() => setErrorPopup('Ошибка адреса', false), 5000);
+        setErrorPopup("Ошибка адреса", true);
+        setTimeout(() => setErrorPopup("Ошибка адреса", false), 5000);
       });
   }
 
   function checkImage(link) {
     return new Promise((resolve, reject) => {
-      const img = document.createElement('img');
+      const img = document.createElement("img");
       img.src = link;
       img.onload = resolve;
       img.onerror = reject;
       img.remove();
-    })
+    });
   }
 
   function handleAddCard(card) {
     checkImage(card.link)
       .then(() => {
-        setSubmitTextAddPlacePopup('Добавление...');
-        api.postCard(card)
-          .then((newCard) => {
-            setCards([newCard, ...cards]);
-            closeAllPopups();
-          })
+        setSubmitTextAddPlacePopup("Добавление...");
+        api.postCard(card).then((newCard) => {
+          setCards([newCard, ...cards]);
+          closeAllPopups();
+        });
       })
       .catch(() => {
-        setErrorPopup('Ошибка адреса', true);
-        setTimeout(() => setErrorPopup('Ошибка адреса', false), 5000);
+        setErrorPopup("Ошибка адреса", true);
+        setTimeout(() => setErrorPopup("Ошибка адреса", false), 5000);
       });
   }
 
@@ -128,7 +131,7 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    setSubmitTextConfirmDeletePopup('Удаление...');
+    setSubmitTextConfirmDeletePopup("Удаление...");
     api
       .deleteCard(card)
       .then(() => {
@@ -144,17 +147,17 @@ function App() {
   }
 
   function handleEditAvatarClick() {
-    setSubmitTextAvatarPopup('Сохранить');
+    setSubmitTextAvatarPopup("Сохранить");
     setEditAvatarPopupOpen(true);
   }
 
   function handleEditProfileClick() {
-    setSubmitTextProfilePopup('Сохранить');
+    setSubmitTextProfilePopup("Сохранить");
     setEditProfilePopupOpen(true);
   }
 
   function handleAddPlaceClick() {
-    setSubmitTextAddPlacePopup('Добавить');
+    setSubmitTextAddPlacePopup("Добавить");
     setAddPlacePopupOpen(true);
   }
 
@@ -163,7 +166,7 @@ function App() {
   }
 
   function confirmCardDelete(card) {
-    setSubmitTextConfirmDeletePopup('Да');
+    setSubmitTextConfirmDeletePopup("Да");
     setCardToRemove(card);
     setConfirmDeletePopupOpen(true);
   }
@@ -183,45 +186,70 @@ function App() {
 
   React.useEffect(() => {
     function handleOverlayClick(evt) {
-      if (evt.target.classList.contains('popup')) {
+      if (evt.target.classList.contains("popup")) {
         closeAllPopups();
       }
     }
-    document.addEventListener('mousedown', handleOverlayClick);
+    document.addEventListener("mousedown", handleOverlayClick);
 
     return () => {
-      document.removeEventListener('mousedown', handleOverlayClick);
-    }
-
-  },[]);
+      document.removeEventListener("mousedown", handleOverlayClick);
+    };
+  }, []);
 
   React.useEffect(() => {
     function handleEscapeClick(evt) {
-      if (evt.key ==='Escape') {
+      if (evt.key === "Escape") {
         closeAllPopups();
       }
     }
-    document.addEventListener('keyup', handleEscapeClick);
+    document.addEventListener("keyup", handleEscapeClick);
 
     return () => {
-      document.removeEventListener('keyup', handleEscapeClick);
-    }
+      document.removeEventListener("keyup", handleEscapeClick);
+    };
+  }, []);
 
-  },[]);
+
+  function handleLogin() {
+    setIsLoggedIn(true);
+    history.push('/profile');
+  }
+
+  function handleRegister() {
+    // setIsLoggedIn(true);
+    history.push('/sign-in');
+  }
+
+  function handleSignOut() {
+    setIsLoggedIn(false);
+    history.push('/sign-in');
+  }
 
 
+
+
+  console.log(!isLoggedIn);
   return (
     <div className="page">
-      <CurrentUserContext.Provider value={currentUser, isLoggedIn}>
-      <Header />
-      <Switch>
-          <Route path="/sing-up">
+      <CurrentUserContext.Provider value={currentUser}>
+        <Header isLoggedIn={isLoggedIn} onSignOut={handleSignOut}/>
+        <Switch>
+          <Route path="/sign-up">
+          <Register
+          isOpen={true}
+          onRegister={handleRegister}
+          buttonSubmitText={"Зарегистрироваться"}
+          />
           </Route>
-          <Route path="/sing-in">
+          <Route path="/sign-in">
+          <Login
+          isOpen={true}
+          onLogin={handleLogin}
+          buttonSubmitText={"Войти"}
+          />
           </Route>
-
-          <Route>
-            { !isLoggedIn ? <Redirect to="/sing-in" /> :
+          <Route path="/profile">
             <>
               <Main
               onEditProfile={handleEditProfileClick}
@@ -232,12 +260,16 @@ function App() {
               onCardLike={handleCardLike}
               onCardDelete={confirmCardDelete}
               />
-              <Footer /> 
+              <Footer />
             </>
-            }
           </Route>
-
+          <Route>
+            {!isLoggedIn ? <Redirect to="/sign-in" /> : <Redirect to="/profile" />}
+          </Route>
+          
         </Switch>
+
+
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}

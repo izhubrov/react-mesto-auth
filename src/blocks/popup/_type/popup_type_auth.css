@@ -1,0 +1,14 @@
+.popup_type_auth {
+  visibility: hidden;
+  opacity: 0;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+  display: flex;
+  position: relative;
+  height: calc(100vh - 119px);
+  box-sizing: border-box;
+  padding-top: 60px;
+  justify-self: center;
+  color: #fff;
+}
