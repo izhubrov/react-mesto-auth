@@ -14,6 +14,7 @@ import ImagePopup from "./ImagePopup.js";
 import ErrorPopup from "./ErrorPopup.js";
 import api from "../utils/api.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
+import ProtectedRoute from "./ProtectedRoute.js";
 
 function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
@@ -213,7 +214,7 @@ function App() {
 
   function handleLogin() {
     setIsLoggedIn(true);
-    history.push('/profile');
+    history.push('/');
   }
 
   function handleRegister() {
@@ -226,48 +227,46 @@ function App() {
     history.push('/sign-in');
   }
 
-
-
-
-  console.log(!isLoggedIn);
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
         <Header isLoggedIn={isLoggedIn} onSignOut={handleSignOut}/>
         <Switch>
-          <Route path="/sign-up">
-          <Register
-          isOpen={true}
-          onRegister={handleRegister}
-          buttonSubmitText={"Зарегистрироваться"}
+          <ProtectedRoute
+            exact path="/"
+            component={Main}
+            isLoggedIn={isLoggedIn}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            onCardClick={handleCardClick}
+            cards={cards}
+            onCardLike={handleCardLike}
+            onCardDelete={confirmCardDelete}
           />
+
+          <Route path="/sign-up">
+            <Register
+            isOpen={true}
+            onRegister={handleRegister}
+            buttonSubmitText={"Зарегистрироваться"}
+            />
           </Route>
           <Route path="/sign-in">
-          <Login
-          isOpen={true}
-          onLogin={handleLogin}
-          buttonSubmitText={"Войти"}
-          />
+            <Login
+            isOpen={true}
+            onLogin={handleLogin}
+            buttonSubmitText={"Войти"}
+            />
           </Route>
-          <Route path="/profile">
-            <>
-              <Main
-              onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              onCardClick={handleCardClick}
-              cards={cards}
-              onCardLike={handleCardLike}
-              onCardDelete={confirmCardDelete}
-              />
-              <Footer />
-            </>
-          </Route>
+          
           <Route>
-            {!isLoggedIn ? <Redirect to="/sign-in" /> : <Redirect to="/profile" />}
+            <Redirect to={!isLoggedIn ? "/sign-in" : "/"} />
           </Route>
           
         </Switch>
+        
+        <Footer isLoggedIn={isLoggedIn}/> 
 
 
 

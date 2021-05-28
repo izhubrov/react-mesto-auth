@@ -1,9 +1,11 @@
 import React from 'react';
-const Footer = React.memo(()=>{
+const Footer = React.memo(({isLoggedIn})=>{
   return (
-    <footer className="footer page__container">
+      isLoggedIn && (
+      <footer className="footer page__container">
       <p className="footer__author">&copy; 2021 Mesto Russia</p>
-    </footer>
+      </footer>
+      )
   );
 })
 
