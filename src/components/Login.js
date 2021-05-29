@@ -98,8 +98,8 @@ function Login({ isOpen, onLogin, buttonSubmitText }) {
             placeholder="Пароль"
             className={`popup__input popup__input_type_auth ${!isPasswordInputValid ? 'popup__input_type_error' : ''}`}
             required
-            minLength="2"
-            maxLength="200"
+            minLength="8"
+            maxLength="40"
             onChange={handleChangePassword}
           />
           <span className={`popup__input-error ${!isPasswordInputValid ? 'popup__input-error_active' : ''}`}>{passwordValidationMessage}</span>

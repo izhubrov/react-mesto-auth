@@ -1,5 +1,11 @@
 import React from "react";
-import { Route, Switch, Redirect, useHistory } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  Redirect,
+  useHistory,
+  useLocation,
+} from "react-router-dom";
 import "../index.css";
 import Header from "./Header.js";
 import Login from "./Login.js";
@@ -12,6 +18,7 @@ import AddPlacePopup from "./AddPlacePopup.js";
 import ConfirmDeletePopup from "./ConfirmDeletePopup.js";
 import ImagePopup from "./ImagePopup.js";
 import ErrorPopup from "./ErrorPopup.js";
+import InfoToolTip from "./InfoToolTip";
 import api from "../utils/api.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 import ProtectedRoute from "./ProtectedRoute.js";
@@ -25,18 +32,33 @@ function App() {
   const [isConfirmDeletePopupOpen, setConfirmDeletePopupOpen] = React.useState(
     false
   );
+
+  const [isInfoToolTipPopupOpen, setInfoToolTipPopupOpen] = React.useState(
+    false
+  );
+  const [isSuccessInfoToolTip, setIsSuccessInfoToolTip] = React.useState(true);
   const [selectedCard, setSelectedCard] = React.useState({});
   const [error, setError] = React.useState({ errorText: "", isActive: false });
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
-  const [submitTextProfilePopup, setSubmitTextProfilePopup] = React.useState("Сохранить");
-  const [submitTextAvatarPopup, setSubmitTextAvatarPopup] = React.useState("Сохранить");
-  const [submitTextAddPlacePopup, setSubmitTextAddPlacePopup] = React.useState("Сохранить");
-  const [submitTextConfirmDeletePopup, setSubmitTextConfirmDeletePopup] = React.useState("Да");
+  const [submitTextProfilePopup, setSubmitTextProfilePopup] = React.useState(
+    "Сохранить"
+  );
+  const [submitTextAvatarPopup, setSubmitTextAvatarPopup] = React.useState(
+    "Сохранить"
+  );
+  const [submitTextAddPlacePopup, setSubmitTextAddPlacePopup] = React.useState(
+    "Сохранить"
+  );
+  const [
+    submitTextConfirmDeletePopup,
+    setSubmitTextConfirmDeletePopup,
+  ] = React.useState("Да");
   const [cardToRemove, setCardToRemove] = React.useState({});
 
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const history = useHistory();
+  const location = useLocation();
 
   React.useEffect(() => {
     setIsLoggedIn(false);
@@ -172,11 +194,21 @@ function App() {
     setConfirmDeletePopupOpen(true);
   }
 
+  function closeInfoToolTipPopup() {
+    closeAllPopups();
+    if (isSuccessInfoToolTip) {
+      console.log(123);
+      setIsLoggedIn(true);
+      history.push("/");
+    }
+  }
+
   function closeAllPopups() {
     setEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
     setConfirmDeletePopupOpen(false);
+    setInfoToolTipPopupOpen(false);
     setSelectedCard({});
     setCardToRemove({});
   }
@@ -187,8 +219,15 @@ function App() {
 
   React.useEffect(() => {
     function handleOverlayClick(evt) {
-      if (evt.target.classList.contains("popup")) {
-        closeAllPopups();
+      if (
+        evt.target.classList.contains("popup") &&
+        !evt.target.classList.contains("popup_type_auth")
+      ) {
+        if (isSuccessInfoToolTip) {
+          closeInfoToolTipPopup();
+        } else {
+          closeAllPopups();
+        }
       }
     }
     document.addEventListener("mousedown", handleOverlayClick);
@@ -200,8 +239,18 @@ function App() {
 
   React.useEffect(() => {
     function handleEscapeClick(evt) {
-      if (evt.key === "Escape") {
-        closeAllPopups();
+      if (
+        (evt.key === "Escape" &&
+          evt.target.classList.contains("popup__btn-submit_type_auth")) ||
+        (evt.key === "Escape" &&
+          location.pathname !== "/sign-up" &&
+          location.pathname !== "/sign-in")
+      ) {
+        if (isSuccessInfoToolTip) {
+          closeInfoToolTipPopup();
+        } else {
+          closeAllPopups();
+        }
       }
     }
     document.addEventListener("keyup", handleEscapeClick);
@@ -211,29 +260,31 @@ function App() {
     };
   }, []);
 
-
   function handleLogin() {
     setIsLoggedIn(true);
-    history.push('/');
+    history.push("/");
   }
 
   function handleRegister() {
     // setIsLoggedIn(true);
-    history.push('/sign-in');
+    setIsSuccessInfoToolTip(true);
+    setInfoToolTipPopupOpen(true);
+    // history.push('/sign-in');
   }
 
   function handleSignOut() {
     setIsLoggedIn(false);
-    history.push('/sign-in');
+    history.push("/sign-in");
   }
 
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header isLoggedIn={isLoggedIn} onSignOut={handleSignOut}/>
+        <Header isLoggedIn={isLoggedIn} onSignOut={handleSignOut} />
         <Switch>
           <ProtectedRoute
-            exact path="/"
+            exact
+            path="/"
             component={Main}
             isLoggedIn={isLoggedIn}
             onEditProfile={handleEditProfileClick}
@@ -247,28 +298,25 @@ function App() {
 
           <Route path="/sign-up">
             <Register
-            isOpen={true}
-            onRegister={handleRegister}
-            buttonSubmitText={"Зарегистрироваться"}
+              isOpen={true}
+              onRegister={handleRegister}
+              buttonSubmitText={"Зарегистрироваться"}
             />
           </Route>
           <Route path="/sign-in">
             <Login
-            isOpen={true}
-            onLogin={handleLogin}
-            buttonSubmitText={"Войти"}
+              isOpen={true}
+              onLogin={handleLogin}
+              buttonSubmitText={"Войти"}
             />
           </Route>
-          
+
           <Route>
             <Redirect to={!isLoggedIn ? "/sign-in" : "/"} />
           </Route>
-          
         </Switch>
-        
-        <Footer isLoggedIn={isLoggedIn}/> 
 
-
+        <Footer isLoggedIn={isLoggedIn} />
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
@@ -300,6 +348,13 @@ function App() {
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
         <ErrorPopup errorText={error.errorText} isActive={error.isActive} />
+
+        <InfoToolTip
+          isOpen={isInfoToolTipPopupOpen}
+          onClose={closeInfoToolTipPopup}
+          isSuccess={isSuccessInfoToolTip}
+          isToolTipForm={true}
+        />
       </CurrentUserContext.Provider>
     </div>
   );

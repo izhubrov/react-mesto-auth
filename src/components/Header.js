@@ -6,7 +6,6 @@ import headerLogo from "../images/headerlogo.svg";
 function Header({isLoggedIn, onSignIn, onSignOut}) {
 
   const location = useLocation();
-  
   const isLocationSignIn = location.pathname === '/sign-in';
 
   function handleSignIn() {

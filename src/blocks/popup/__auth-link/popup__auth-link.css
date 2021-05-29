@@ -1,0 +1,6 @@
+.popup__auth-link {
+    display: inline;
+    text-decoration: none;
+    cursor: pointer;
+    color: #fff;
+}
