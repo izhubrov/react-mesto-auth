@@ -19,22 +19,22 @@ function PopupWithForm({
 
   return (
     <div
-      className={`popup ${isAuthForm && "popup_type_auth"} ${
+      className={`popup ${isAuthForm ? "popup_type_auth" : ""} ${
         isOpen ? "popup_opened" : ""
       }`}
     >
       <div
         className={`popup__container ${
-          !isAuthForm ? "popup__container_form" : "popup__container_auth"
+          !isAuthForm ? "popup__container_form" : "popup__container_auth page__container"
         }`}
       >
-        {isToolTipForm && <div className={`popup__tooltip-image ${!isSuccess && "popup__tooltip-image_type_fail"}`}></div>}
-        <h2 className={`"popup__title" ${isToolTipForm && "popup__title_place_tooltip"}`}>{title}</h2>
+        {isToolTipForm && <div className={`popup__tooltip-image ${!isSuccess ? "popup__tooltip-image_type_fail" : ""}`}></div>}
+        <h2 className={`popup__title ${(isToolTipForm || isAuthForm) ? "popup__title_place_auth" : ""}`}>{title}</h2>
         {!isAuthForm && (
           <button
             type="button"
             aria-label="Закрыть"
-            className="popup__btn-close"
+            className={`popup__btn-close ${isToolTipForm ? "popup__btn-close_place_tooltip" : ""}`}
             onClick={onClose}
           ></button>
         )}
@@ -50,7 +50,7 @@ function PopupWithForm({
             <button
             type="submit"
             className={`popup__btn-submit ${
-              isAuthForm && "popup__btn-submit_type_auth"
+              isAuthForm ? "popup__btn-submit_type_auth" : ""
             } ${!buttonSubmitState ? "popup__btn-submit_inactive" : ""}`}
             disabled={!buttonSubmitState ? true : ""}
             >

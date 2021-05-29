@@ -31,8 +31,7 @@ function Register({ isOpen, onRegister, buttonSubmitText }) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    // onLogin({email, about: password})
-    onRegister();
+    onRegister({email, password});
   }
 
   //Валидация формы

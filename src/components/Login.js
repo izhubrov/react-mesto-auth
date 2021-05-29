@@ -31,8 +31,7 @@ function Login({ isOpen, onLogin, buttonSubmitText }) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    // onLogin({email, about: password})
-    onLogin();
+    onLogin({email, password})
   }
 
   //Валидация формы

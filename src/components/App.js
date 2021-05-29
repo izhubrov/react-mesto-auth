@@ -40,6 +40,8 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState({});
   const [error, setError] = React.useState({ errorText: "", isActive: false });
   const [currentUser, setCurrentUser] = React.useState({});
+  const [userEmail, setUserEmail] = React.useState('');
+  const [userPassword, setUserPassword] = React.useState('');
   const [cards, setCards] = React.useState([]);
   const [submitTextProfilePopup, setSubmitTextProfilePopup] = React.useState(
     "Сохранить"
@@ -59,9 +61,9 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const history = useHistory();
   const location = useLocation();
-
+  // localStorage.removeItem('jwt');
   React.useEffect(() => {
-    setIsLoggedIn(false);
+    handleCheckToken();
   }, []);
 
   React.useEffect(() => {
@@ -197,9 +199,10 @@ function App() {
   function closeInfoToolTipPopup() {
     closeAllPopups();
     if (isSuccessInfoToolTip) {
-      console.log(123);
-      setIsLoggedIn(true);
-      history.push("/");
+      // setIsLoggedIn(true);
+      // history.push("/");
+      console.log({email: userEmail, password: userPassword});
+      handleLogin({email: userEmail, password: userPassword});
     }
   }
 
@@ -260,27 +263,64 @@ function App() {
     };
   }, []);
 
-  function handleLogin() {
-    setIsLoggedIn(true);
-    history.push("/");
+  function handleCheckToken() {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      api.checkToken(jwt)
+      .then ((res) => {
+        setUserEmail(res.data.email);
+        setIsLoggedIn(true);
+        history.push("/");
+      })
+      .catch(() => {
+        setIsSuccessInfoToolTip(false);
+        setInfoToolTipPopupOpen(true);
+      })
+    } else {
+      return;
+    }
   }
 
-  function handleRegister() {
-    // setIsLoggedIn(true);
-    setIsSuccessInfoToolTip(true);
-    setInfoToolTipPopupOpen(true);
-    // history.push('/sign-in');
+  function handleRegister(data) {
+    api.register(data)
+    .then ((res) => {
+      setUserEmail(res.data.email);
+      setUserPassword(data.password);
+      setIsSuccessInfoToolTip(true);
+      setInfoToolTipPopupOpen(true);
+    })
+    .catch(() => {
+      setIsSuccessInfoToolTip(false);
+      setInfoToolTipPopupOpen(true);
+    })
+  }
+
+  function handleLogin(data) {
+    console.log(data);
+    api.login(data)
+    .then ((res) => {
+      console.log(res);
+      localStorage.setItem('jwt', res.token);
+      handleCheckToken();
+    })
+    .catch(() => {
+      setIsSuccessInfoToolTip(false);
+      setInfoToolTipPopupOpen(true);
+    })
   }
 
   function handleSignOut() {
     setIsLoggedIn(false);
     history.push("/sign-in");
+    localStorage.removeItem('jwt');
+    setUserEmail('');
+    setUserPassword('');
   }
 
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header isLoggedIn={isLoggedIn} onSignOut={handleSignOut} />
+        <Header isLoggedIn={isLoggedIn} userEmail={userEmail} onSignOut={handleSignOut} />
         <Switch>
           <ProtectedRoute
             exact

@@ -6,3 +6,10 @@
   font-weight: 500;
   color: #fff;
 }
+
+@media screen and (max-width: 468px) {
+  .header__email {
+    padding-right: 0;
+    padding-bottom: 18px;
+  }
+}
