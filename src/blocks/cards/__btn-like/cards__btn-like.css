@@ -5,7 +5,7 @@
   background-color: inherit;
   width: 22px;
   height: 19px;
-  transition: opacity .2s;
+  transition: opacity .1s;
   border: none;
   outline: none;
   cursor: pointer;
@@ -15,4 +15,5 @@
 
 .cards__btn-like:hover {
   opacity: 0.5;
+  transform: scale(1.07);
 }
