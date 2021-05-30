@@ -4,19 +4,17 @@
 
 * Страница сайта расположена по адресу: https://izhubrov.github.io/mesto-react/.
 * Собранный проект расположен по адресу: https://github.com/izhubrov/mesto-react.
-* Применяемое API, сервер:  https://mesto.nomoreparties.co
 
-___
-## Макет сайта
+### Макет сайта
 Расположен в онлайн-сервисе для разработки интерфесов - графическом редакторе Figma по адресам:
 * https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1
 * https://www.figma.com/file/bjyvbKKJN2naO0ucURl2Z0/JavaScript.-Sprint-5?node-id=0%3A1
 * https://www.figma.com/file/kRVLKwYG3d1HGLvh7JFWRT/JavaScript.-Sprint-6?node-id=0%3A1
 * https://www.figma.com/file/5H3gsn5lIGPwzBPby9jAOo/Sprint-14-RU?node-id=0%3A1
 
-## Применяемое API
-https://mesto.nomoreparties.co/v1 для работы с карточками и профилем пользователя
-https://auth.nomoreparties.co для регистрации и авторизации пользователя
+### Применяемое API
+* https://mesto.nomoreparties.co/v1 для работы с карточками и профилем пользователя
+* https://auth.nomoreparties.co для регистрации и авторизации пользователя
 
 ___
 ## Как использовать
