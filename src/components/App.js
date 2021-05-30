@@ -36,34 +36,26 @@ function App() {
   const [isInfoToolTipPopupOpen, setInfoToolTipPopupOpen] = React.useState(
     false
   );
-  const [isSuccessInfoToolTip, setIsSuccessInfoToolTip] = React.useState(true);
+  const [isSuccessInfoToolTip, setIsSuccessInfoToolTip] = React.useState(null);
   const [selectedCard, setSelectedCard] = React.useState({});
   const [error, setError] = React.useState({ errorText: "", isActive: false });
   const [currentUser, setCurrentUser] = React.useState({});
-  const [userEmail, setUserEmail] = React.useState('');
-  const [userPassword, setUserPassword] = React.useState('');
+  const [userEmail, setUserEmail] = React.useState("");
+  const [userPassword, setUserPassword] = React.useState("");
   const [cards, setCards] = React.useState([]);
-  const [submitTextProfilePopup, setSubmitTextProfilePopup] = React.useState(
-    "Сохранить"
-  );
-  const [submitTextAvatarPopup, setSubmitTextAvatarPopup] = React.useState(
-    "Сохранить"
-  );
-  const [submitTextAddPlacePopup, setSubmitTextAddPlacePopup] = React.useState(
-    "Сохранить"
-  );
-  const [
-    submitTextConfirmDeletePopup,
-    setSubmitTextConfirmDeletePopup,
-  ] = React.useState("Да");
+  const [submitTextProfilePopup, setSubmitTextProfilePopup] = React.useState("Сохранить");
+  const [submitTextAvatarPopup, setSubmitTextAvatarPopup] = React.useState("Сохранить");
+  const [submitTextAddPlacePopup, setSubmitTextAddPlacePopup] = React.useState("Сохранить");
+  const [submitTextConfirmDeletePopup,setSubmitTextConfirmDeletePopup,] = React.useState("Да");
   const [cardToRemove, setCardToRemove] = React.useState({});
-
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(false);
   const history = useHistory();
   const location = useLocation();
-  // localStorage.removeItem('jwt');
+
   React.useEffect(() => {
     handleCheckToken();
+    setIsSuccessInfoToolTip(false);
   }, []);
 
   React.useEffect(() => {
@@ -199,10 +191,7 @@ function App() {
   function closeInfoToolTipPopup() {
     closeAllPopups();
     if (isSuccessInfoToolTip) {
-      // setIsLoggedIn(true);
-      // history.push("/");
-      console.log({email: userEmail, password: userPassword});
-      handleLogin({email: userEmail, password: userPassword});
+      handleLogin({ email: userEmail, password: userPassword });
     }
   }
 
@@ -238,13 +227,14 @@ function App() {
     return () => {
       document.removeEventListener("mousedown", handleOverlayClick);
     };
-  }, []);
+  }, [isSuccessInfoToolTip]);
 
   React.useEffect(() => {
     function handleEscapeClick(evt) {
       if (
         (evt.key === "Escape" &&
-          evt.target.classList.contains("popup__btn-submit_type_auth")) ||
+          (evt.target.classList.contains("popup__btn-submit_type_auth") ||
+            evt.target.classList.contains("popup__input_type_auth"))) ||
         (evt.key === "Escape" &&
           location.pathname !== "/sign-up" &&
           location.pathname !== "/sign-in")
@@ -261,66 +251,82 @@ function App() {
     return () => {
       document.removeEventListener("keyup", handleEscapeClick);
     };
-  }, []);
+  }, [
+    isSuccessInfoToolTip,
+    isEditAvatarPopupOpen,
+    isAddPlacePopupOpen,
+    isEditProfilePopupOpen,
+    selectedCard,
+  ]);
 
   function handleCheckToken() {
-    const jwt = localStorage.getItem('jwt');
+    setIsLoading(true);
+    const jwt = localStorage.getItem("jwt");
     if (jwt) {
-      api.checkToken(jwt)
-      .then ((res) => {
-        setUserEmail(res.data.email);
-        setIsLoggedIn(true);
-        history.push("/");
-      })
-      .catch(() => {
-        setIsSuccessInfoToolTip(false);
-        setInfoToolTipPopupOpen(true);
-      })
+      api
+        .checkToken(jwt)
+        .then((res) => {
+          setUserEmail(res.data.email);
+          setIsLoggedIn(true);
+          setIsLoading(false);
+          history.push("/");
+        })
+        .catch(() => {
+          setIsSuccessInfoToolTip(false);
+          setInfoToolTipPopupOpen(true);
+        });
     } else {
+      setIsLoading(false);
       return;
     }
   }
 
   function handleRegister(data) {
-    api.register(data)
-    .then ((res) => {
-      setUserEmail(res.data.email);
-      setUserPassword(data.password);
-      setIsSuccessInfoToolTip(true);
-      setInfoToolTipPopupOpen(true);
-    })
-    .catch(() => {
-      setIsSuccessInfoToolTip(false);
-      setInfoToolTipPopupOpen(true);
-    })
+    api
+      .register(data)
+      .then((res) => {
+        setUserEmail(res.data.email);
+        setUserPassword(data.password);
+        setIsSuccessInfoToolTip(true);
+        setInfoToolTipPopupOpen(true);
+      })
+      .catch(() => {
+        setIsSuccessInfoToolTip(false);
+        setInfoToolTipPopupOpen(true);
+      });
   }
 
   function handleLogin(data) {
-    console.log(data);
-    api.login(data)
-    .then ((res) => {
-      console.log(res);
-      localStorage.setItem('jwt', res.token);
-      handleCheckToken();
-    })
-    .catch(() => {
-      setIsSuccessInfoToolTip(false);
-      setInfoToolTipPopupOpen(true);
-    })
+    api
+      .login(data)
+      .then((res) => {
+        localStorage.setItem("jwt", res.token);
+        handleCheckToken();
+      })
+      .catch(() => {
+        setIsSuccessInfoToolTip(false);
+        setInfoToolTipPopupOpen(true);
+      });
   }
 
   function handleSignOut() {
     setIsLoggedIn(false);
     history.push("/sign-in");
-    localStorage.removeItem('jwt');
-    setUserEmail('');
-    setUserPassword('');
+    localStorage.removeItem("jwt");
+    setUserEmail("");
+    setUserPassword("");
+    setIsSuccessInfoToolTip(null);
   }
 
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header isLoggedIn={isLoggedIn} userEmail={userEmail} onSignOut={handleSignOut} />
+        <Header
+          isLoggedIn={isLoggedIn}
+          userEmail={userEmail}
+          onSignOut={handleSignOut}
+          isLoading={isLoading}
+        />
         <Switch>
           <ProtectedRoute
             exact
@@ -348,6 +354,7 @@ function App() {
               isOpen={true}
               onLogin={handleLogin}
               buttonSubmitText={"Войти"}
+              isLoading={isLoading}
             />
           </Route>
 

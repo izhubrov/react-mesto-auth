@@ -77,7 +77,7 @@ function Register({ isOpen, onRegister, buttonSubmitText }) {
       <fieldset className="popup__set">
         <label className="popup__field">
           <input
-            type="text"
+            type="email"
             name="email"
             value={email}
             placeholder="Email"

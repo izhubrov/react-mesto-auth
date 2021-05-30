@@ -19,7 +19,7 @@ function PopupWithForm({
 
   return (
     <div
-      className={`popup ${isAuthForm ? "popup_type_auth" : ""} ${
+      className={`popup ${isAuthForm ? "popup_type_auth appear" : ""} ${
         isOpen ? "popup_opened" : ""
       }`}
     >

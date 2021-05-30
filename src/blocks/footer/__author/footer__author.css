@@ -4,6 +4,8 @@
   line-height: 1.22;
   color: #545454;
   margin: 0;
+  display: flex;
+  justify-self: flex-start;
 }
 
 @media screen and (max-width: 918px) {

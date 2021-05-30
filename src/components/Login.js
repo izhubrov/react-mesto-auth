@@ -1,7 +1,8 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
+import CssLoader from "./CssLoader.js";
 
-function Login({ isOpen, onLogin, buttonSubmitText }) {
+function Login({ isOpen, onLogin, buttonSubmitText, isLoading }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [isEmailInputValid, setEmailInputValid] = React.useState(true);
@@ -65,6 +66,9 @@ function Login({ isOpen, onLogin, buttonSubmitText }) {
 
 
   return (
+    <>
+    <CssLoader isLoading={isLoading} />
+    {!isLoading && 
     <PopupWithForm
       title="Вход"
       name="login"
@@ -77,7 +81,7 @@ function Login({ isOpen, onLogin, buttonSubmitText }) {
       <fieldset className="popup__set">
         <label className="popup__field">
           <input
-            type="text"
+            type="email"
             name="email"
             value={email}
             placeholder="Email"
@@ -105,6 +109,8 @@ function Login({ isOpen, onLogin, buttonSubmitText }) {
         </label>
       </fieldset>
     </PopupWithForm>
+    }
+    </>
   );
 }
 

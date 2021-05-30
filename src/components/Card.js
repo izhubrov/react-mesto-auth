@@ -8,7 +8,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   const cardButtonRemoveClassName = `cards__btn-remove ${isOwn ? 'cards__btn-remove_active': ''}`;
 
   const isLiked = card.likes.some((userWhoLiked)=>userWhoLiked._id === currentUser._id);
-  const cardButtonLikeClassName = `cards__btn-like ${isLiked ? 'cards__btn-like_active': ''}`;
+  const cardButtonLikeClassName = `cards__btn-like ${isLiked ? 'cards__btn-like_active appear': ''}`;
 
   function handleClick() {
     onCardClick(card);
@@ -23,7 +23,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   }
 
   return (
-    <li className="cards__item">
+    <li className="cards__item appear">
       <img
         className="cards__image"
         src={`${card.link}`}
@@ -45,7 +45,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
             className={cardButtonLikeClassName}
             onClick={handleLikeClick}
           ></button>
-          <div className="cards__likes-counter">{card.likes.length}</div>
+          <div className="cards__likes-counter appear">{card.likes.length}</div>
         </div>
       </div>
     </li>

@@ -1,6 +1,11 @@
 .popup__auth-link {
-    display: inline;
-    text-decoration: none;
-    cursor: pointer;
-    color: #fff;
+  display: inline;
+  text-decoration: none;
+  cursor: pointer;
+  color: #fff;
+  transition: opacity .2s;
+}
+
+.popup__auth-link:hover {
+  opacity: 0.6;
 }

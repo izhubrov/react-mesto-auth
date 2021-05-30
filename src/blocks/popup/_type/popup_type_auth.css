@@ -6,10 +6,18 @@
   background-color: #000;
   display: flex;
   position: relative;
-  height: calc(100vh - 119px);
+  height: unset;
   box-sizing: border-box;
   padding-top: 60px;
+  padding-bottom: 80px;
   justify-self: center;
   color: #fff;
   width: 100%;
+}
+
+@media screen and (max-width: 468px) {
+  .popup_type_auth {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
 }
