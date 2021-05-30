@@ -22,14 +22,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/izhubrov/mesto-react.git"
+    "url": "git+https://github.com/izhubrov/react-mesto-auth.git"
   },
   "author": "Ivan Zhubrov",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/izhubrov/mesto-react/issues"
+    "url": "https://github.com/izhubrov/react-mesto-auth/issues"
   },
-  "homepage": "https://izhubrov.github.io/mesto-react/",
+  "homepage": "https://izhubrov.github.io/react-mesto-auth/",
   "eslintConfig": {
     "extends": [
       "react-app",
