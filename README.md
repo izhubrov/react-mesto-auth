@@ -2,7 +2,7 @@
 Данный проект представляет собой сайт, написанный с помощью JavaScript биботеки React с помощью [Create React App](https://github.com/facebook/create-react-app).
 Реализована возможность регистрации и авторизации пользователя, в том числе мобильный вид сайта.
 
-* Страница сайта расположена по адресу: https://izhubrov.github.io/react-mesto-auth/.
+* Страница сайта расположена по адресу: https://izhubrov.github.io/react-mesto-auth.
 * Собранный проект расположен по адресу: https://github.com/izhubrov/react-mesto-auth.
 
 ### Макет сайта
