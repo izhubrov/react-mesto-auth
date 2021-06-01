@@ -1,7 +1,7 @@
 import React from "react";
-import PopupWithForm from "./PopupWithForm";
+import AuthForm from "./AuthForm";
 
-function Register({ isOpen, onRegister, buttonSubmitText }) {
+function Register({ onRegister }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [isEmailInputValid, setEmailInputValid] = React.useState(true);
@@ -17,7 +17,7 @@ function Register({ isOpen, onRegister, buttonSubmitText }) {
     setButtonSubmitState(false);
     setEmailInputValid(true);
     setPasswordInputValid(true);
-  }, [isOpen]);
+  },[]);
 
   function handleChangeEmail(evt) {
     setEmail(evt.target.value);
@@ -65,46 +65,44 @@ function Register({ isOpen, onRegister, buttonSubmitText }) {
 
 
   return (
-    <PopupWithForm
+    <AuthForm
       title="Регистрация"
       name="register"
-      buttonSubmitText={buttonSubmitText}
-      isOpen={isOpen}
+      buttonSubmitText="Зарегистрироваться"
       onSubmit={handleSubmit}
       buttonSubmitState={buttonSubmitState}
-      isAuthForm= {true}
     >
-      <fieldset className="popup__set">
-        <label className="popup__field">
+      <fieldset className="form__set">
+        <label className="form__field">
           <input
             type="email"
             name="email"
             value={email}
             placeholder="Email"
-            className={`popup__input popup__input_type_auth ${!isEmailInputValid ? 'popup__input_type_error' : ''}`}
+            className={`form__input form__input_type_auth ${!isEmailInputValid ? 'form__input_type_error' : ''}`}
             required
             minLength="2"
             maxLength="40"
             onChange={handleChangeEmail}
           />
-          <span className={`popup__input-error ${!isEmailInputValid ? 'popup__input-error_active' : ''}`}>{emailValidationMessage}</span>
+          <span className={`form__input-error ${!isEmailInputValid ? 'form__input-error_active' : ''}`}>{emailValidationMessage}</span>
         </label>
-        <label className="popup__field">
+        <label className="form__field">
           <input
             type="password"
             name="password"
             value={password}
             placeholder="Пароль"
-            className={`popup__input popup__input_type_auth ${!isPasswordInputValid ? 'popup__input_type_error' : ''}`}
+            className={`form__input form__input_type_auth ${!isPasswordInputValid ? 'form__input_type_error' : ''}`}
             required
             minLength="8"
             maxLength="40"
             onChange={handleChangePassword}
           />
-          <span className={`popup__input-error ${!isPasswordInputValid ? 'popup__input-error_active' : ''}`}>{passwordValidationMessage}</span>
+          <span className={`form__input-error ${!isPasswordInputValid ? 'form__input-error_active' : ''}`}>{passwordValidationMessage}</span>
         </label>
       </fieldset>
-    </PopupWithForm>
+    </AuthForm>
   );
 }
 

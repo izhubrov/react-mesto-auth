@@ -52,18 +52,18 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, isLoading }) {
       onSubmit={handleSubmit}
       buttonSubmitState={buttonSubmitState}
     >
-      <fieldset className="popup__set">
-        <label className="popup__field">
+      <fieldset className="form__set">
+        <label className="form__field">
           <input
             value={link}
             type="url"
             name="link"
             placeholder="Ссылка на картинку"
-            className={`popup__input ${!isLinkInputValid ? 'popup__input_type_error' : ''}`}
+            className={`form__input ${!isLinkInputValid ? 'form__input_type_error' : ''}`}
             required
             onChange={handleChange}
           />
-          <span className={`popup__input-error ${!isLinkInputValid ? 'popup__input-error_active' : ''}`}>{linkValidationMessage}</span>
+          <span className={`form__input-error ${!isLinkInputValid ? 'form__input-error_active' : ''}`}>{linkValidationMessage}</span>
         </label>
       </fieldset>
     </PopupWithForm>

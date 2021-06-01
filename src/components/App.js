@@ -209,10 +209,7 @@ function App() {
 
   React.useEffect(() => {
     function handleOverlayClick(evt) {
-      if (
-        evt.target.classList.contains("popup") &&
-        !evt.target.classList.contains("popup_type_auth")
-      ) {
+      if (evt.target.classList.contains("popup")) {
         if (isSuccessInfoToolTip) {
           closeInfoToolTipPopup();
         } else {
@@ -222,14 +219,7 @@ function App() {
     }
 
     function handleEscapeClick(evt) {
-      if (
-        (evt.key === "Escape" &&
-          (evt.target.classList.contains("popup__btn-submit_type_auth") ||
-            evt.target.classList.contains("popup__input_type_auth"))) ||
-        (evt.key === "Escape" &&
-          location.pathname !== "/sign-up" &&
-          location.pathname !== "/sign-in")
-      ) {
+      if (evt.key === "Escape") {
         if (isSuccessInfoToolTip) {
           closeInfoToolTipPopup();
         } else {
@@ -338,16 +328,12 @@ function App() {
 
           <Route path="/sign-up">
             <Register
-              isOpen={true}
               onRegister={handleRegister}
-              buttonSubmitText={"Зарегистрироваться"}
             />
           </Route>
           <Route path="/sign-in">
             <Login
-              isOpen={true}
               onLogin={handleLogin}
-              buttonSubmitText={"Войти"}
               isLoading={isLoading}
             />
           </Route>
@@ -394,7 +380,6 @@ function App() {
           isOpen={isInfoToolTipPopupOpen}
           onClose={closeInfoToolTipPopup}
           isSuccess={isSuccessInfoToolTip}
-          isToolTipForm={true}
         />
       </CurrentUserContext.Provider>
     </div>

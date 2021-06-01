@@ -75,34 +75,34 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
       onSubmit={handleSubmit}
       buttonSubmitState={buttonSubmitState}
     >
-      <fieldset className="popup__set">
-        <label className="popup__field">
+      <fieldset className="form__set">
+        <label className="form__field">
           <input
             type="text"
             name="name"
             value={name}
             placeholder="Имя"
-            className={`popup__input ${!isNameInputValid ? 'popup__input_type_error' : ''}`}
+            className={`form__input ${!isNameInputValid ? 'form__input_type_error' : ''}`}
             required
             minLength="2"
             maxLength="40"
             onChange={handleChangeName}
           />
-          <span className={`popup__input-error ${!isNameInputValid ? 'popup__input-error_active' : ''}`}>{nameValidationMessage}</span>
+          <span className={`form__input-error ${!isNameInputValid ? 'form__input-error_active' : ''}`}>{nameValidationMessage}</span>
         </label>
-        <label className="popup__field">
+        <label className="form__field">
           <input
             type="text"
             name="about"
             value={description}
             placeholder="О себе"
-            className={`popup__input ${!isAboutInputValid ? 'popup__input_type_error' : ''}`}
+            className={`form__input ${!isAboutInputValid ? 'form__input_type_error' : ''}`}
             required
             minLength="2"
             maxLength="200"
             onChange={handleChangeAbout}
           />
-          <span className={`popup__input-error ${!isAboutInputValid ? 'popup__input-error_active' : ''}`}>{aboutValidationMessage}</span>
+          <span className={`form__input-error ${!isAboutInputValid ? 'form__input-error_active' : ''}`}>{aboutValidationMessage}</span>
         </label>
       </fieldset>
     </PopupWithForm>

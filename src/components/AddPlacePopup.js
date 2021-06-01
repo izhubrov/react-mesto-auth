@@ -76,32 +76,32 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
       onSubmit={handleAddPlaceSubmit}
       buttonSubmitState={buttonSubmitState}
     >
-      <fieldset className="popup__set">
-        <label className="popup__field">
+      <fieldset className="form__set">
+        <label className="form__field">
           <input
             type="text"
             name="title"
             value={name}
             placeholder="Название"
-            className={`popup__input ${!isNameInputValid ? 'popup__input_type_error' : ''}`}
+            className={`form__input ${!isNameInputValid ? 'form__input_type_error' : ''}`}
             required
             minLength="2"
             maxLength="30"
             onChange={handleChangeTitle}
           />
-          <span className={`popup__input-error ${!isNameInputValid ? 'popup__input-error_active' : ''}`}>{nameValidationMessage}</span>
+          <span className={`form__input-error ${!isNameInputValid ? 'form__input-error_active' : ''}`}>{nameValidationMessage}</span>
         </label>
-        <label className="popup__field">
+        <label className="form__field">
           <input
             type="url"
             name="link"
             value={link}
             placeholder="Ссылка на картинку"
-            className={`popup__input ${!isLinkInputValid ? 'popup__input_type_error' : ''}`}
+            className={`form__input ${!isLinkInputValid ? 'form__input_type_error' : ''}`}
             required
             onChange={handleChangeLink}
           />
-          <span className={`popup__input-error ${!isLinkInputValid ? 'popup__input-error_active' : ''}`}>{linkValidationMessage}</span>
+          <span className={`form__input-error ${!isLinkInputValid ? 'form__input-error_active' : ''}`}>{linkValidationMessage}</span>
         </label>
       </fieldset>
     </PopupWithForm>

@@ -34,7 +34,7 @@ function Header({isLoggedIn, userEmail, onSignOut, isLoading}) {
         src={headerLogo}
         alt="Логотип сайта с надписью Место Россия английскими буквами"
       />
-      <button onClick={handleCloseMenu} type="button" aria-label="Закрыть меню" className={`header__btn-close ${isColumnMenu ? "header__btn-close_type_active" : ""}`}></button>
+      <button onClick={handleCloseMenu} type="button" aria-label="Закрыть меню" className={`btn-close btn-close_place_header ${isColumnMenu ? "btn-close_active" : ""}`}></button>
       </div>
       <div onClick={handleMenuClick} className= {`header__btn-menu ${(!isLoggedIn || isColumnMenu) ? "header__btn-menu_type_inactive" : ""}`}>
         <div className="header__burger-line"></div>
