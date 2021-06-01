@@ -20,6 +20,7 @@ import ImagePopup from "./ImagePopup.js";
 import ErrorPopup from "./ErrorPopup.js";
 import InfoToolTip from "./InfoToolTip";
 import api from "../utils/api.js";
+import auth from "../utils/auth.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 import ProtectedRoute from "./ProtectedRoute.js";
 
@@ -43,10 +44,6 @@ function App() {
   const [userEmail, setUserEmail] = React.useState("");
   const [userPassword, setUserPassword] = React.useState("");
   const [cards, setCards] = React.useState([]);
-  const [submitTextProfilePopup, setSubmitTextProfilePopup] = React.useState("Сохранить");
-  const [submitTextAvatarPopup, setSubmitTextAvatarPopup] = React.useState("Сохранить");
-  const [submitTextAddPlacePopup, setSubmitTextAddPlacePopup] = React.useState("Сохранить");
-  const [submitTextConfirmDeletePopup,setSubmitTextConfirmDeletePopup,] = React.useState("Да");
   const [cardToRemove, setCardToRemove] = React.useState({});
   const [isLoggedIn, setIsLoggedIn] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -71,7 +68,7 @@ function App() {
   }, []);
 
   function handleUpdateUser(user) {
-    setSubmitTextProfilePopup("Сохранение...");
+    setIsLoading(true);
     api
       .setUserInfo(user)
       .then((updatedUser) => {
@@ -91,7 +88,7 @@ function App() {
   function handleUpdateAvatar({ avatar }) {
     checkImage(avatar)
       .then(() => {
-        setSubmitTextAvatarPopup("Сохранение...");
+        setIsLoading(true);
         api.changeAvatar(avatar).then((updatedUser) => {
           setCurrentUser({ ...currentUser, avatar: updatedUser.avatar });
           closeAllPopups();
@@ -116,7 +113,7 @@ function App() {
   function handleAddCard(card) {
     checkImage(card.link)
       .then(() => {
-        setSubmitTextAddPlacePopup("Добавление...");
+        setIsLoading(true);
         api.postCard(card).then((newCard) => {
           setCards([newCard, ...cards]);
           closeAllPopups();
@@ -148,7 +145,7 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    setSubmitTextConfirmDeletePopup("Удаление...");
+    setIsLoading(true);
     api
       .deleteCard(card)
       .then(() => {
@@ -164,17 +161,17 @@ function App() {
   }
 
   function handleEditAvatarClick() {
-    setSubmitTextAvatarPopup("Сохранить");
+    setIsLoading(false);
     setEditAvatarPopupOpen(true);
   }
 
   function handleEditProfileClick() {
-    setSubmitTextProfilePopup("Сохранить");
+    setIsLoading(false);
     setEditProfilePopupOpen(true);
   }
 
   function handleAddPlaceClick() {
-    setSubmitTextAddPlacePopup("Добавить");
+    setIsLoading(false);
     setAddPlacePopupOpen(true);
   }
 
@@ -183,7 +180,7 @@ function App() {
   }
 
   function confirmCardDelete(card) {
-    setSubmitTextConfirmDeletePopup("Да");
+    setIsLoading(false);
     setCardToRemove(card);
     setConfirmDeletePopupOpen(true);
   }
@@ -209,6 +206,7 @@ function App() {
     setError({ ...error, errorText: err, isActive: active });
   }
 
+
   React.useEffect(() => {
     function handleOverlayClick(evt) {
       if (
@@ -222,14 +220,7 @@ function App() {
         }
       }
     }
-    document.addEventListener("mousedown", handleOverlayClick);
 
-    return () => {
-      document.removeEventListener("mousedown", handleOverlayClick);
-    };
-  }, [isSuccessInfoToolTip]);
-
-  React.useEffect(() => {
     function handleEscapeClick(evt) {
       if (
         (evt.key === "Escape" &&
@@ -246,9 +237,12 @@ function App() {
         }
       }
     }
+
+    document.addEventListener("mousedown", handleOverlayClick);
     document.addEventListener("keyup", handleEscapeClick);
 
     return () => {
+      document.removeEventListener("mousedown", handleOverlayClick);
       document.removeEventListener("keyup", handleEscapeClick);
     };
   }, [
@@ -263,7 +257,7 @@ function App() {
     setIsLoading(true);
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
-      api
+      auth
         .checkToken(jwt)
         .then((res) => {
           setUserEmail(res.data.email);
@@ -282,7 +276,7 @@ function App() {
   }
 
   function handleRegister(data) {
-    api
+    auth
       .register(data)
       .then((res) => {
         setUserEmail(res.data.email);
@@ -297,7 +291,7 @@ function App() {
   }
 
   function handleLogin(data) {
-    api
+    auth
       .login(data)
       .then((res) => {
         localStorage.setItem("jwt", res.token);
@@ -367,21 +361,21 @@ function App() {
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
+          isLoading={isLoading}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
-          buttonSubmitText={submitTextProfilePopup}
         />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
+          isLoading={isLoading}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
-          buttonSubmitText={submitTextAvatarPopup}
         />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddCard}
-          buttonSubmitText={submitTextAddPlacePopup}
+          isLoading={isLoading}
         />
 
         <ConfirmDeletePopup
@@ -389,7 +383,7 @@ function App() {
           card={cardToRemove}
           onClose={closeAllPopups}
           onSubmitDelete={handleCardDelete}
-          buttonSubmitText={submitTextConfirmDeletePopup}
+          isLoading={isLoading}
         />
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />

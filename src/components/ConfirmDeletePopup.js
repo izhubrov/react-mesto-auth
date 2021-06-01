@@ -1,7 +1,7 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm.js';
 
-function ConfirmDeletePopup({isOpen, onClose, card, onSubmitDelete, buttonSubmitText }) {
+function ConfirmDeletePopup({isOpen, onClose, card, onSubmitDelete, isLoading }) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -12,7 +12,7 @@ function ConfirmDeletePopup({isOpen, onClose, card, onSubmitDelete, buttonSubmit
     <PopupWithForm
       title="Вы уверены?"
       name="remove"
-      buttonSubmitText={buttonSubmitText}
+      buttonSubmitText={isLoading? "Удаление..." : "Да"}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}

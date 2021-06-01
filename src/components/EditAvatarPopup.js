@@ -1,7 +1,7 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm.js';
 
-function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, buttonSubmitText }) {
+function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, isLoading }) {
   const [link, setLink] = React.useState('');
   const [isLinkInputValid, setLinkInputValid] = React.useState(true);
   const [linkValidationMessage, setLinkValidationMessage] = React.useState('');
@@ -46,7 +46,7 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, buttonSubmitText }) {
     <PopupWithForm
       title="Обновить аватар"
       name="avatar"
-      buttonSubmitText={buttonSubmitText}
+      buttonSubmitText={isLoading? "Сохранение..." : "Сохранить"}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
