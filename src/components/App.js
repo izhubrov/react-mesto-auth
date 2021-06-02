@@ -48,8 +48,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const history = useHistory();
-  const location = useLocation();
-
+  
   React.useEffect(() => {
     handleCheckToken();
     setIsSuccessInfoToolTip(false);
@@ -227,6 +226,7 @@ function App() {
         }
       }
     }
+
 
     document.addEventListener("mousedown", handleOverlayClick);
     document.addEventListener("keyup", handleEscapeClick);
