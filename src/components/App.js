@@ -4,7 +4,6 @@ import {
   Switch,
   Redirect,
   useHistory,
-  useLocation,
 } from "react-router-dom";
 import "../index.css";
 import Header from "./Header.js";
