@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import PopupWithForm from "./PopupWithForm.js";
 import {useFormAndValidation} from "../utils/useFormAndValidation.js";
 
@@ -10,12 +10,10 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
     evt.preventDefault();
     onAddPlace({ name:values.title, link:values.link }); 
   }
-  // const refer=useRef();
 
   React.useEffect(()=> {
     resetForm();
-    // refer.current.value="123";
-  },[isOpen])
+  },[])
 
   return (
     <PopupWithForm

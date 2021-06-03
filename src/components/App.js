@@ -45,7 +45,7 @@ function App() {
   const [cards, setCards] = React.useState([]);
   const [cardToRemove, setCardToRemove] = React.useState({});
   const [isLoggedIn, setIsLoggedIn] = React.useState(null);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
   const history = useHistory();
   
   React.useEffect(() => {
@@ -226,7 +226,6 @@ function App() {
       }
     }
 
-
     document.addEventListener("mousedown", handleOverlayClick);
     document.addEventListener("keyup", handleEscapeClick);
 
@@ -350,19 +349,21 @@ function App() {
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
         />
+
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           isLoading={isLoading}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
         />
+
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddCard}
           isLoading={isLoading}
         />
-
+        
         <ConfirmDeletePopup
           isOpen={isConfirmDeletePopupOpen}
           card={cardToRemove}

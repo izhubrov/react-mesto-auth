@@ -1,69 +1,27 @@
-import React from "react";
+import React, { useRef } from "react";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import {useFormAndValidation} from "../utils/useFormAndValidation.js";
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
-  const [name, setName] = React.useState("Name");
-  const [description, setDescription] = React.useState("About");
-  const [isNameInputValid, setNameInputValid] = React.useState(true);
-  const [isAboutInputValid, setAboutInputValid] = React.useState(true);
-  const [nameValidationMessage, setNameValidationMessage] = React.useState('');
-  const [aboutValidationMessage, setAboutValidationMessage] = React.useState('');
-  const [buttonSubmitState, setButtonSubmitState] = React.useState(false);
+
+  const {handleChange, errors, isValid, resetForm} = useFormAndValidation();
 
   const currentUser = React.useContext(CurrentUserContext);
 
+  const name=useRef();
+  const about=useRef();
+
   React.useEffect(() => {
-    if(currentUser.name && currentUser.about) {
-      setName(currentUser.name);
-      setDescription(currentUser.about);
-    }
-    setNameInputValid(true);
-    setAboutInputValid(true);
+    resetForm();
+    name.current.value = currentUser.name;
+    about.current.value = currentUser.about;
   }, [currentUser, isOpen]);
-
-  function handleChangeName(evt) {
-    setName(evt.target.value);
-    checkNameValidation(evt.target);
-  }
-
-  function handleChangeAbout(evt) {
-    setDescription(evt.target.value);
-    checkAboutValidation(evt.target);
-  }
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    onUpdateUser({name, about: description})
+    onUpdateUser({name: name.current.value, about: about.current.value})
   }
-
-  //Валидация формы
-  React.useEffect(()=> {
-    if (isNameInputValid && isAboutInputValid) {
-      setButtonSubmitState(true);
-    } else {
-      setButtonSubmitState(false);
-    }
-  }, [isNameInputValid, isAboutInputValid]);
-
-  function checkNameValidation(inputElement) {
-    if (!inputElement.validity.valid) {
-      setNameInputValid(false);
-      setNameValidationMessage(inputElement.validationMessage);
-    } else {
-      setNameInputValid(true);
-    }
-  }
-
-  function checkAboutValidation(inputElement) {
-    if (!inputElement.validity.valid) {
-      setAboutInputValid(false);
-      setAboutValidationMessage(inputElement.validationMessage);
-    } else {
-      setAboutInputValid(true);
-    }
-  }
-
 
   return (
     <PopupWithForm
@@ -73,36 +31,36 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
-      buttonSubmitState={buttonSubmitState}
+      buttonSubmitState={isValid}
     >
       <fieldset className="form__set">
         <label className="form__field">
           <input
             type="text"
             name="name"
-            value={name}
+            ref={name}
             placeholder="Имя"
-            className={`form__input ${!isNameInputValid ? 'form__input_type_error' : ''}`}
+            className={`form__input ${errors.name ? 'form__input_type_error' : ''}`}
             required
             minLength="2"
             maxLength="40"
-            onChange={handleChangeName}
+            onChange={handleChange}
           />
-          <span className={`form__input-error ${!isNameInputValid ? 'form__input-error_active' : ''}`}>{nameValidationMessage}</span>
+          <span className={`form__input-error ${errors.name ? 'form__input-error_active' : ''}`}>{errors.name}</span>
         </label>
         <label className="form__field">
           <input
             type="text"
             name="about"
-            value={description}
+            ref={about}
             placeholder="О себе"
-            className={`form__input ${!isAboutInputValid ? 'form__input_type_error' : ''}`}
+            className={`form__input ${errors.about ? 'form__input_type_error' : ''}`}
             required
             minLength="2"
             maxLength="200"
-            onChange={handleChangeAbout}
+            onChange={handleChange}
           />
-          <span className={`form__input-error ${!isAboutInputValid ? 'form__input-error_active' : ''}`}>{aboutValidationMessage}</span>
+          <span className={`form__input-error ${errors.about ? 'form__input-error_active' : ''}`}>{errors.about}</span>
         </label>
       </fieldset>
     </PopupWithForm>

@@ -41,7 +41,7 @@ function Header({isLoggedIn, userEmail, onSignOut, isLoading}) {
         <div className="header__burger-line"></div>
         <div className="header__burger-line"></div>
       </div>
-      { !isLoading &&
+      { (!isLoading || isLocationMain) &&
       <nav className={`header__nav-container appear ${isLoggedIn && !isColumnMenu ? "header__nav-container_type_inactive" : ""} ${isColumnMenu ? "header__nav-container_type_column" : ""} `}>
         <p className="header__email">{isLoggedIn ? userEmail : ""}</p>
           {!isLocationSignIn ?
