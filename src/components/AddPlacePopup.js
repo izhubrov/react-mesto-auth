@@ -1,107 +1,55 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm.js";
+import {useFormAndValidation} from "../utils/useFormAndValidation.js";
 
-function AddPlacePopup({ isOpen, onClose, onAddPlace, buttonSubmitText }) {
-  const [name, setName] = React.useState("");
-  const [link, setLink] = React.useState("");
-  const [isNameInputValid, setNameInputValid] = React.useState(true);
-  const [isLinkInputValid, setLinkInputValid] = React.useState(true);
-  const [nameValidationMessage, setNameValidationMessage] = React.useState('');
-  const [linkValidationMessage, setLinkValidationMessage] = React.useState('');
-  const [buttonSubmitState, setButtonSubmitState] = React.useState(false);
-  const [isNameInputInitial, setNameInputInitial] = React.useState(true);
-  const [isLinkInputInitial, setLinkInputInitial] = React.useState(true);
+function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
+
+  const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
 
   function handleAddPlaceSubmit(evt) {
     evt.preventDefault();
-    onAddPlace({ name, link });
+    onAddPlace({ name:values.title, link:values.link }); 
   }
-
-  function handleChangeTitle(evt) {
-    setName(evt.target.value);
-    checkNameValidation(evt.target);
-  }
-
-  function handleChangeLink(evt) {
-    setLink(evt.target.value);
-    checkLinkValidation(evt.target);
-  }
-
-  //Валидация формы
-  React.useEffect(() => {
-    setName('');
-    setLink('');
-    setNameInputValid(true);
-    setLinkInputValid(true);
-    setButtonSubmitState(false);
-    setNameInputInitial(true);
-    setLinkInputInitial(true);
-  }, [isOpen]);
 
   React.useEffect(()=> {
-    if (isNameInputValid && isLinkInputValid && !isNameInputInitial && !isLinkInputInitial) {
-      setButtonSubmitState(true);
-    } else {
-      setButtonSubmitState(false);
-    }
-  }, [isNameInputValid, isLinkInputValid, isNameInputInitial, isLinkInputInitial ]);
-
-  function checkNameValidation(inputElement) {
-    setNameInputInitial(false);
-    if (!inputElement.validity.valid) {
-      setNameInputValid(false);
-      setNameValidationMessage(inputElement.validationMessage);
-    } else {
-      setNameInputValid(true);
-    }
-  }
-
-  function checkLinkValidation(inputElement) {
-    setLinkInputInitial(false);
-    if (!inputElement.validity.valid) {
-      setLinkInputValid(false);
-      setLinkValidationMessage(inputElement.validationMessage);
-    } else {
-      setLinkInputValid(true);
-    }
-  }
+    resetForm();
+  },[])
 
   return (
     <PopupWithForm
       title="Новое место"
       name="card"
-      buttonSubmitText={buttonSubmitText}
+      buttonSubmitText={isLoading? "Добавление..." : "Сохранить"}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleAddPlaceSubmit}
-      buttonSubmitState={buttonSubmitState}
+      buttonSubmitState={isValid}
     >
-      <fieldset className="popup__set">
-        <label className="popup__field">
+      <fieldset className="form__set">
+        <label className="form__field">
           <input
             type="text"
             name="title"
-            value={name}
+            // ref={refer}
             placeholder="Название"
-            className={`popup__input ${!isNameInputValid ? 'popup__input_type_error' : ''}`}
+            className={`form__input ${errors.title ? 'form__input_type_error' : ''}`}
             required
             minLength="2"
             maxLength="30"
-            onChange={handleChangeTitle}
+            onChange={handleChange}
           />
-          <span className={`popup__input-error ${!isNameInputValid ? 'popup__input-error_active' : ''}`}>{nameValidationMessage}</span>
+          <span className={`form__input-error ${errors.title ? 'form__input-error_active' : ''}`}>{errors.title}</span>
         </label>
-        <label className="popup__field">
+        <label className="form__field">
           <input
             type="url"
             name="link"
-            value={link}
             placeholder="Ссылка на картинку"
-            className={`popup__input ${!isLinkInputValid ? 'popup__input_type_error' : ''}`}
+            className={`form__input ${errors.link ? 'form__input_type_error' : ''}`}
             required
-            onChange={handleChangeLink}
+            onChange={handleChange}
           />
-          <span className={`popup__input-error ${!isLinkInputValid ? 'popup__input-error_active' : ''}`}>{linkValidationMessage}</span>
+          <span className={`form__input-error ${errors.link ? 'form__input-error_active' : ''}`}>{errors.link}</span>
         </label>
       </fieldset>
     </PopupWithForm>

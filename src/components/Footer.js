@@ -1,12 +1,10 @@
-import React from 'react';
-const Footer = React.memo(({isLoggedIn})=>{
+import React from "react";
+const Footer = React.memo(() => {
   return (
-      isLoggedIn && (
-      <footer className="footer page__container">
+    <footer className="footer page__container">
       <p className="footer__author">&copy; 2021 Mesto Russia</p>
-      </footer>
-      )
+    </footer>
   );
-})
+});
 
 export default Footer;
