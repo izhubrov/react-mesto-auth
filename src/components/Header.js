@@ -36,13 +36,13 @@ function Header({isLoggedIn, userEmail, onSignOut, isLoading}) {
       />
       <button onClick={handleCloseMenu} type="button" aria-label="Закрыть меню" className={`btn-close btn-close_place_header ${isColumnMenu ? "btn-close_active" : ""}`}></button>
       </div>
-      <div onClick={handleMenuClick} className= {`header__btn-menu ${(!isLoggedIn || isColumnMenu) ? "header__btn-menu_type_inactive" : ""}`}>
+      <div onClick={handleMenuClick} className= {`header__btn-menu ${(!isLoggedIn || isColumnMenu) ? "header__btn-menu_inactive" : ""}`}>
         <div className="header__burger-line"></div>
         <div className="header__burger-line"></div>
         <div className="header__burger-line"></div>
       </div>
       { (!isLoading || isLocationMain) &&
-      <nav className={`header__nav-container appear ${isLoggedIn && !isColumnMenu ? "header__nav-container_type_inactive" : ""} ${isColumnMenu ? "header__nav-container_type_column" : ""} `}>
+      <nav className={`header__nav-container appear ${isLoggedIn && !isColumnMenu ? "header__nav-container_inactive" : ""} ${isColumnMenu ? "header__nav-container_type_column" : ""} `}>
         <p className="header__email">{isLoggedIn ? userEmail : ""}</p>
           {!isLocationSignIn ?
           <NavLink onClick={!isLoggedIn ? handleSignIn : handleSignOut} className={`header__nav-item ${isLocationMain ? "header__nav-item_active" : ""}`} to={"/sign-in"}>{isLoggedIn ? "Выйти" : "Войти"}</NavLink>

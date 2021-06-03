@@ -1,6 +1,8 @@
+$page-color: #000;
+
 .page {
   font-family: 'Inter', sans-serif, Arial;
-  background-color: #000;
+  background-color: $page-color;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;

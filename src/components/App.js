@@ -5,7 +5,6 @@ import {
   Redirect,
   useHistory,
 } from "react-router-dom";
-import "../index.css";
 import Header from "./Header.js";
 import Login from "./Login.js";
 import Register from "./Register.js";

@@ -1,0 +1,94 @@
+@import "./vendor/normalize.css";
+@import "./vendor/fonts/fonts.css";
+
+@import "./blocks/page/page";
+@import "./blocks/page/__container/page__container";
+
+@import "./blocks/btn-close/btn-close";
+@import "./blocks/btn-close/_place/btn-close_place_tooltip";
+@import "./blocks/btn-close/_place/btn-close_place_popup";
+@import "./blocks/btn-close/_place/btn-close_place_header";
+@import "./blocks/btn-close/_active/btn-close_active";
+
+
+@import "./blocks/title/title";
+@import "./blocks/title/_place/title_place_auth";
+
+
+@import "./blocks/form/form";
+@import "./blocks/form/__btn-submit/form__btn-submit";
+@import "./blocks/form/__btn-submit/_type/form__btn-submit_type_auth";
+@import "./blocks/form/__btn-submit/_inactive/form__btn-submit_inactive";
+@import "./blocks/form/__auth-container/form__auth-container";
+@import "./blocks/form/__auth-link/form__auth-link";
+@import "./blocks/form/__auth-text/form__auth-text";
+@import "./blocks/form/__field/form__field";
+@import "./blocks/form/__input/form__input";
+@import "./blocks/form/__input/_type/form__input_type_auth";
+@import "./blocks/form/__input/_type/form__input_type_error";
+@import "./blocks/form/__input-error/form__input-error";
+@import "./blocks/form/__input-error/_active/form__input-error_active";
+@import "./blocks/form/__set/form__set";
+
+@import "./blocks/auth/auth";
+
+
+@import "./blocks/header/header";
+@import "./blocks/header/_columned/header_columned";
+@import "./blocks/header/__logo-container/header__logo-container";
+@import "./blocks/header/__logo-container/_type/header__logo-container_type_column";
+@import "./blocks/header/__logo/header__logo";
+@import "./blocks/header/__nav-container/header__nav-container";
+@import "./blocks/header/__btn-menu/header__btn-menu";
+@import "./blocks/header/__btn-menu/_inactive/header__btn-menu_inactive";
+@import "./blocks/header/__burger-line/header__burger-line";
+@import "./blocks/header/__nav-container/_inactive/header__nav-container_inactive";
+@import "./blocks/header/__nav-container/_type/header__nav-container_type_column";
+@import "./blocks/header/__email/header__email";
+@import "./blocks/header/__nav-item/header__nav-item";
+@import "./blocks/header/__nav-item/_active/header__nav-item_active";
+
+@import "./blocks/profile/profile";
+@import "./blocks/profile/__avatar/profile__avatar";
+@import "./blocks/profile/__info/profile__info";
+@import "./blocks/profile/__container/profile__container";
+@import "./blocks/profile/__name/profile__name";
+@import "./blocks/text-cut/text-cut";
+@import "./blocks/profile/__btn-edit/profile__btn-edit";
+@import "./blocks/profile/__about/profile__about";
+@import "./blocks/profile/__btn-add/profile__btn-add";
+
+@import "./blocks/popup/popup";
+@import "./blocks/popup/__container/popup__container";
+@import "./blocks/popup/__container/_form/popup__container_form";
+@import "./blocks/popup/__tooltip-image/popup__tooltip-image";
+@import "./blocks/popup/__tooltip-image/_type/popup__tooltip-image_type_fail";
+@import "./blocks/popup/__figure/popup__figure";
+@import "./blocks/popup/__image/popup__image";
+@import "./blocks/popup/__caption/popup__caption";
+@import "./blocks/popup/_opened/popup_opened";
+
+@import "./blocks/error-popup/error-popup";
+@import "./blocks/error-popup/_opened/error-popup_opened";
+@import "./blocks/error-popup/__title/error-popup__title";
+
+
+@import "./blocks/places/places";
+@import "./blocks/cards/cards";
+@import "./blocks/cards/__item/cards__item";
+@import "./blocks/cards/__image/cards__image";
+@import "./blocks/cards/__btn-remove/cards__btn-remove";
+@import "./blocks/cards/__btn-remove/_active/cards__btn-remove_active";
+@import "./blocks/cards/__description/cards__description";
+@import "./blocks/cards/__title/cards__title";
+@import "./blocks/cards/__likes-container/__likes-container";
+@import "./blocks/cards/__btn-like/cards__btn-like";
+@import "./blocks/cards/__btn-like/_active/cards__btn-like_active";
+@import "./blocks/cards/__likes-counter/cards__likes-counter";
+
+@import "./blocks/appear/appear";
+@import "./blocks/cssload/cssload";
+@import "./blocks/cssload/__whirlpool/cssload__whirlpool";
+
+@import "./blocks/footer/footer";
+@import "./blocks/footer/__author/footer__author";
