@@ -6,14 +6,14 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
 
   const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
 
+  React.useEffect(()=> {
+    resetForm({title:'', link:''});
+  },[isOpen])
+
   function handleAddPlaceSubmit(evt) {
     evt.preventDefault();
     onAddPlace({ name:values.title, link:values.link }); 
   }
-
-  React.useEffect(()=> {
-    resetForm();
-  },[])
 
   return (
     <PopupWithForm
@@ -30,7 +30,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
           <input
             type="text"
             name="title"
-            // ref={refer}
+            value={values.title || ""}
             placeholder="Название"
             className={`form__input ${errors.title ? 'form__input_type_error' : ''}`}
             required
@@ -44,6 +44,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
           <input
             type="url"
             name="link"
+            value={values.link || ""}
             placeholder="Ссылка на картинку"
             className={`form__input ${errors.link ? 'form__input_type_error' : ''}`}
             required

@@ -6,14 +6,14 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, isLoading }) {
   
   const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
 
+  React.useEffect(() => {
+    resetForm({link:''});
+  }, [isOpen]);
+
   function handleSubmit(evt) {
     evt.preventDefault();
     onUpdateAvatar({avatar: values.link});
   }
-
-  React.useEffect(() => {
-    resetForm();
-  }, [isOpen]);
 
   return (
     <PopupWithForm
@@ -30,6 +30,7 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, isLoading }) {
           <input
             type="url"
             name="link"
+            value={values.link || ""}
             placeholder="Ссылка на картинку"
             className={`form__input ${errors.link ? 'form__input_type_error' : ''}`}
             required

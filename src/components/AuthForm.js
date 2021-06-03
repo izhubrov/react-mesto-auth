@@ -36,6 +36,7 @@ function AuthForm({
           <input
             type="email"
             name="email"
+            value={values.email || ""}
             placeholder="Email"
             className={`form__input form__input_type_auth ${errors.email ? 'form__input_type_error' : ''}`}
             required
@@ -49,6 +50,7 @@ function AuthForm({
           <input
             type="password"
             name="password"
+            value={values.password || ""}
             placeholder="Пароль"
             className={`form__input form__input_type_auth ${errors.password ? 'form__input_type_error' : ''}`}
             required

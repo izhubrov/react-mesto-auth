@@ -1,26 +1,21 @@
-import React, { useRef } from "react";
+import React from "react";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import {useFormAndValidation} from "../utils/useFormAndValidation.js";
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
 
-  const {handleChange, errors, isValid, resetForm} = useFormAndValidation();
+  const {values,handleChange, errors, isValid, resetForm} = useFormAndValidation();
 
   const currentUser = React.useContext(CurrentUserContext);
 
-  const name=useRef();
-  const about=useRef();
-
   React.useEffect(() => {
-    resetForm();
-    name.current.value = currentUser.name;
-    about.current.value = currentUser.about;
-  }, [currentUser, isOpen]);
+    resetForm(currentUser);
+  }, [isOpen]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    onUpdateUser({name: name.current.value, about: about.current.value})
+    onUpdateUser({name: values.name, about: values.about})
   }
 
   return (
@@ -38,7 +33,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
           <input
             type="text"
             name="name"
-            ref={name}
+            value={values.name || ""}
             placeholder="Имя"
             className={`form__input ${errors.name ? 'form__input_type_error' : ''}`}
             required
@@ -52,7 +47,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
           <input
             type="text"
             name="about"
-            ref={about}
+            value={values.about || ""}
             placeholder="О себе"
             className={`form__input ${errors.about ? 'form__input_type_error' : ''}`}
             required
