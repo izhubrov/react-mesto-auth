@@ -298,6 +298,7 @@ function App() {
     setUserEmail("");
     setUserPassword("");
     setIsSuccessInfoToolTip(null);
+    setIsLoading(false);
   }
 
   return (
