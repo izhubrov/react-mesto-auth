@@ -1,10 +1,7 @@
-import { apiSettings } from "./utils.js";
+import baseUrl from "./utils.js";
 class Api {
-  constructor({ baseUrl, groupId, token, authUrl }) {
+  constructor(baseUrl) {
     this._baseUrl = baseUrl;
-    this._groupId = groupId;
-    this._token = token;
-    this._authUrl = authUrl;
   }
 
   _checkResponse(res) {
@@ -16,26 +13,22 @@ class Api {
   }
 
   getUserInfo() {
-    return fetch(`${this._baseUrl}/${this._groupId}/users/me`, {
-      headers: {
-        authorization: this._token,
-      },
+    return fetch(`${this._baseUrl}/users/me`, {
+      credentials: 'include',
     }).then(this._checkResponse);
   }
 
   getCards() {
-    return fetch(`${this._baseUrl}/${this._groupId}/cards`, {
-      headers: {
-        authorization: this._token,
-      },
+    return fetch(`${this._baseUrl}/cards`, {
+      credentials: 'include',
     }).then(this._checkResponse);
   }
 
   setUserInfo(user) {
-    return fetch(`${this._baseUrl}/${this._groupId}/users/me`, {
+    return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
+      credentials: 'include',
       headers: {
-        authorization: this._token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -46,10 +39,10 @@ class Api {
   }
 
   postCard(card) {
-    return fetch(`${this._baseUrl}/${this._groupId}/cards`, {
+    return fetch(`${this._baseUrl}/cards`, {
       method: "POST",
+      credentials: 'include',
       headers: {
-        authorization: this._token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -60,36 +53,30 @@ class Api {
   }
 
   deleteCard(card) {
-    return fetch(`${this._baseUrl}/${this._groupId}/cards/${card._id}`, {
+    return fetch(`${this._baseUrl}/cards/${card._id}`, {
       method: "DELETE",
-      headers: {
-        authorization: this._token,
-      },
+      credentials: 'include',
     }).then(this._checkResponse);
   }
 
   changeLikeCardStatus(card, likeCardStatus) {
-    return fetch(`${this._baseUrl}/${this._groupId}/cards/likes/${card._id}`, {
+    return fetch(`${this._baseUrl}/cards/likes/${card._id}`, {
       method: (likeCardStatus ? "PUT": "DELETE"),
-      headers: {
-        authorization: this._token,
-      },
+      credentials: 'include',
     }).then(this._checkResponse);
   }
 
   getCountsOfLikes(card) {
-    return fetch(`${this._baseUrl}/${this._groupId}/cards/likes/${card._id}`, {
-      headers: {
-        authorization: this._token,
-      },
+    return fetch(`${this._baseUrl}/cards/likes/${card._id}`, {
+      credentials: 'include',
     }).then(this._checkResponse);
   }
 
   changeAvatar(link) {
-    return fetch(`${this._baseUrl}/${this._groupId}/users/me/avatar`, {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
+      credentials: 'include',
       headers: {
-        authorization: this._token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -99,5 +86,5 @@ class Api {
   }
 }
 
-const api = new Api(apiSettings);
+const api = new Api(baseUrl);
 export default api;

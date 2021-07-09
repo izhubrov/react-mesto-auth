@@ -1,6 +1,6 @@
-import { authSettings } from "./utils.js";
+import baseUrl from "./utils.js";
 class Auth {
-  constructor({ baseUrl }) {
+  constructor(baseUrl) {
     this._baseUrl = baseUrl;
   }
 
@@ -41,13 +41,13 @@ class Auth {
   checkToken(token) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "GET",
+      credentials: 'include',
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
       },
     }).then(this._checkResponse);
   }
 }
 
-const auth = new Auth(authSettings);
+const auth = new Auth(baseUrl);
 export default auth;

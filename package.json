@@ -29,7 +29,7 @@
   "bugs": {
     "url": "https://github.com/izhubrov/react-mesto-auth/issues"
   },
-  "homepage": ".",
+  "homepage": "https://izhubrov.github.io/react-mesto-auth",
   "eslintConfig": {
     "extends": [
       "react-app",
