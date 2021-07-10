@@ -47,10 +47,14 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const history = useHistory();
-  
+
+
   React.useEffect(() => {
+    // setIsLoading(false);
     handleCheckToken();
+    setIsLoading(false);
     setIsSuccessInfoToolTip(false);
+    // eslint-disable-next-line
   }, []);
 
   React.useEffect(() => {
@@ -60,8 +64,10 @@ function App() {
         setCards(cards);
       })
       .catch((err) => {
-        setErrorPopup(err, true);
-        setTimeout(() => setErrorPopup(err, false), 5000);
+        if (isLoggedIn !== null) {
+          setErrorPopup(err, true);
+          setTimeout(() => setErrorPopup(err, false), 5000);
+        }
       });
   }, []);
 
@@ -200,10 +206,8 @@ function App() {
     setCardToRemove({});
   }
 
-  function setErrorPopup(err, active) {
-    // setError({ ...error, errorText: err, isActive: active });
-    // setError({ errorText: err, isActive: active });
-    console.log(err, active);
+  function setErrorPopup(err, active) {;
+    setError({ errorText: err, isActive: active });
   }
 
 
@@ -235,7 +239,8 @@ function App() {
       document.removeEventListener("mousedown", handleOverlayClick);
       document.removeEventListener("keyup", handleEscapeClick);
     };
-  }, [
+  },// eslint-disable-next-line
+   [
     isSuccessInfoToolTip,
     isEditAvatarPopupOpen,
     isAddPlacePopupOpen,
@@ -244,29 +249,30 @@ function App() {
   ]);
 
   function handleCheckToken() {
+    // setIsLoading(true);
     setIsLoading(false);
     auth
       .checkToken()
       .then((res) => {
-        console.log(res.data.email);
-        
-        setUserEmail(res.data.email);
+        setUserEmail(res.email);
         setIsLoggedIn(true);
         setIsLoading(false);
         history.push("/");
       })
       .catch(() => {
-        setIsSuccessInfoToolTip(false);
-        setInfoToolTipPopupOpen(true);
+        if (isLoggedIn !== null) {
+          setIsSuccessInfoToolTip(false);
+          setInfoToolTipPopupOpen(true);
+          setIsLoading(false);
+        }
       });
-    // setIsLoading(false);
   }
 
   function handleRegister(data) {
     auth
       .register(data)
       .then((res) => {
-        setUserEmail(res.data.email);
+        setUserEmail(res.email);
         setUserPassword(data.password);
         setIsSuccessInfoToolTip(true);
         setInfoToolTipPopupOpen(true);
@@ -280,7 +286,7 @@ function App() {
   function handleLogin(data) {
     auth
       .login(data)
-      .then((res) => {
+      .then(() => {
         handleCheckToken();
       })
       .catch(() => {
@@ -289,14 +295,22 @@ function App() {
       });
   }
 
-  function handleSignOut() {
-    setIsLoggedIn(false);
-    history.push("/sign-in");
-    // localStorage.removeItem("jwt");
-    setUserEmail("");
-    setUserPassword("");
-    setIsSuccessInfoToolTip(null);
-    setIsLoading(false);
+  function handleLogOut() {
+    auth
+      .logout(userEmail)
+      .then(() => {
+        // setIsLoggedIn(false);
+        setIsLoggedIn(null);
+        history.push("/sign-in");
+        setUserEmail("");
+        setUserPassword("");
+        setIsSuccessInfoToolTip(null);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsSuccessInfoToolTip(false);
+        setInfoToolTipPopupOpen(true);
+      });
   }
 
   return (
@@ -305,7 +319,7 @@ function App() {
         <Header
           isLoggedIn={isLoggedIn}
           userEmail={userEmail}
-          onSignOut={handleSignOut}
+          onSignOut={handleLogOut}
           isLoading={isLoading}
         />
         <Switch>

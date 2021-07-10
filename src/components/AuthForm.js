@@ -14,6 +14,7 @@ function AuthForm({
 
   React.useEffect(() => {
     resetForm();
+    // eslint-disable-next-line
   }, []);
 
   function handleSubmit(evt) {

@@ -5,6 +5,7 @@ class Auth {
   }
 
   _checkResponse(res) {
+    console.log(res);
     if (res.ok) {
       return res.json();
     } else {
@@ -33,6 +34,19 @@ class Auth {
       },
       body: JSON.stringify({
         "password": password,
+        "email": email
+      }),
+    }).then(this._checkResponse);
+  }
+
+  logout(email) {
+    return fetch(`${this._baseUrl}/logout`, {
+      method: "DELETE",
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
         "email": email
       }),
     }).then(this._checkResponse);

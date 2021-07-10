@@ -11,6 +11,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
 
   React.useEffect(() => {
     resetForm(currentUser);
+    // eslint-disable-next-line
   }, [isOpen]);
 
   function handleSubmit(evt) {

@@ -60,14 +60,8 @@ class Api {
   }
 
   changeLikeCardStatus(card, likeCardStatus) {
-    return fetch(`${this._baseUrl}/cards/likes/${card._id}`, {
+    return fetch(`${this._baseUrl}/cards/${card._id}/likes`, {
       method: (likeCardStatus ? "PUT": "DELETE"),
-      credentials: 'include',
-    }).then(this._checkResponse);
-  }
-
-  getCountsOfLikes(card) {
-    return fetch(`${this._baseUrl}/cards/likes/${card._id}`, {
       credentials: 'include',
     }).then(this._checkResponse);
   }

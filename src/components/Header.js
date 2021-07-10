@@ -10,7 +10,7 @@ function Header({isLoggedIn, userEmail, onSignOut, isLoading}) {
   const isLocationMain = location.pathname === '/';
   const [isColumnMenu, setColumnMenu] = React.useState(false);
 
-  function handleSignOut() {
+  function handleLogOut() {
     onSignOut();
     setColumnMenu(false);
   }
@@ -45,7 +45,7 @@ function Header({isLoggedIn, userEmail, onSignOut, isLoading}) {
       <nav className={`header__nav-container appear ${isLoggedIn && !isColumnMenu ? "header__nav-container_type_inactive" : ""} ${isColumnMenu ? "header__nav-container_type_column" : ""} `}>
         <p className="header__email">{isLoggedIn ? userEmail : ""}</p>
           {!isLocationSignIn ?
-          <NavLink onClick={!isLoggedIn ? handleSignIn : handleSignOut} className={`header__nav-item ${isLocationMain ? "header__nav-item_active" : ""}`} to={"/sign-in"}>{isLoggedIn ? "Выйти" : "Войти"}</NavLink>
+          <NavLink onClick={!isLoggedIn ? handleSignIn : handleLogOut} className={`header__nav-item ${isLocationMain ? "header__nav-item_active" : ""}`} to={"/sign-in"}>{isLoggedIn ? "Выйти" : "Войти"}</NavLink>
           :
           <NavLink className="header__nav-item" activeClassName="header_nav-item_active" to={"/sign-up"}>{!isLoggedIn ? "Регистрация" : ""}</NavLink>
           }

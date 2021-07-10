@@ -8,6 +8,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
 
   React.useEffect(()=> {
     resetForm({title:'', link:''});
+    // eslint-disable-next-line
   },[isOpen])
 
   function handleAddPlaceSubmit(evt) {

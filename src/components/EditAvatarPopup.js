@@ -8,6 +8,7 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, isLoading }) {
 
   React.useEffect(() => {
     resetForm({link:''});
+    // eslint-disable-next-line
   }, [isOpen]);
 
   function handleSubmit(evt) {
