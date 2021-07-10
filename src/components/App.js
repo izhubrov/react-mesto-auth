@@ -49,7 +49,7 @@ function App() {
   const history = useHistory();
   
   React.useEffect(() => {
-    // handleCheckToken();
+    handleCheckToken();
     setIsSuccessInfoToolTip(false);
   }, []);
 
@@ -201,7 +201,9 @@ function App() {
   }
 
   function setErrorPopup(err, active) {
-    setError({ ...error, errorText: err, isActive: active });
+    // setError({ ...error, errorText: err, isActive: active });
+    // setError({ errorText: err, isActive: active });
+    console.log(err, active);
   }
 
 
@@ -241,27 +243,24 @@ function App() {
     selectedCard,
   ]);
 
-  // function handleCheckToken() {
-  //   setIsLoading(true);
-  //   const jwt = localStorage.getItem("jwt");
-  //   if (jwt) {
-  //     auth
-  //       .checkToken(jwt)
-  //       .then((res) => {
-  //         setUserEmail(res.data.email);
-  //         setIsLoggedIn(true);
-  //         setIsLoading(false);
-  //         history.push("/");
-  //       })
-  //       .catch(() => {
-  //         setIsSuccessInfoToolTip(false);
-  //         setInfoToolTipPopupOpen(true);
-  //       });
-  //   } else {
-  //     setIsLoading(false);
-  //     return;
-  //   }
-  // }
+  function handleCheckToken() {
+    setIsLoading(false);
+    auth
+      .checkToken()
+      .then((res) => {
+        console.log(res.data.email);
+        
+        setUserEmail(res.data.email);
+        setIsLoggedIn(true);
+        setIsLoading(false);
+        history.push("/");
+      })
+      .catch(() => {
+        setIsSuccessInfoToolTip(false);
+        setInfoToolTipPopupOpen(true);
+      });
+    // setIsLoading(false);
+  }
 
   function handleRegister(data) {
     auth
@@ -282,8 +281,7 @@ function App() {
     auth
       .login(data)
       .then((res) => {
-        // localStorage.setItem("jwt", res.token);
-        // handleCheckToken();
+        handleCheckToken();
       })
       .catch(() => {
         setIsSuccessInfoToolTip(false);

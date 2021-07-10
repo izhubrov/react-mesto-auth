@@ -38,15 +38,15 @@ class Auth {
     }).then(this._checkResponse);
   }
 
-  // checkToken(token) {
-  //   return fetch(`${this._baseUrl}/users/me`, {
-  //     method: "GET",
-  //     credentials: 'include',
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   }).then(this._checkResponse);
-  // }
+  checkToken() {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: "GET",
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(this._checkResponse);
+  }
 }
 
 const auth = new Auth(baseUrl);
