@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import "../index.css";
 import Card from "./Card.js";
 import {CurrentUserContext} from '../contexts/CurrentUserContext.js';
 
-function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onCardLike, onCardDelete }) {
+function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCheckImage, cards, onCardLike, onCardDelete }) {
 
   const currentUser = React.useContext(CurrentUserContext);
 
@@ -29,7 +30,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onC
         <ul className="cards">
           {cards.map((card) => {
             return (
-              <Card key={card._id} card={card} onCardClick={onCardClick} onCardLike={onCardLike} onCardDelete={onCardDelete}/>
+              <Card key={card._id} card={card} onCheckImage = {onCheckImage} onCardClick={onCardClick} onCardLike={onCardLike} onCardDelete={onCardDelete}/>
             );
           })}
         </ul>

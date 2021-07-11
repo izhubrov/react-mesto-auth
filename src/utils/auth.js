@@ -5,17 +5,17 @@ class Auth {
   }
 
   _checkResponse(res) {
-    console.log(res);
     if (res.ok) {
       return res.json();
     } else {
-      return Promise.reject(`Ошибка ${res.status}`);
+      return Promise.reject(res.json());
     }
   }
 
   register({email, password}) {
     return fetch(`${this._baseUrl}/signup`, {
       method: "POST",
+      credentials: 'include',
       headers: {
         "Content-Type": "application/json",
       },
@@ -29,6 +29,7 @@ class Auth {
   login({email, password}) {
     return fetch(`${this._baseUrl}/signin`, {
       method: "POST",
+      credentials: 'include',
       headers: {
         "Content-Type": "application/json",
       },

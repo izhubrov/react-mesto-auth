@@ -1,13 +1,7 @@
 .error-popup__title {
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.2;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.22;
   margin: 0;
-}
-
-@media screen and (max-width: 468px) {
-  .error-popup__title {
-    font-size: 14px;
-    line-height: 1.22;
-  }
+  padding: 0;
 }

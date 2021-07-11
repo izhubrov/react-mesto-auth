@@ -1,7 +1,8 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import {CurrentUserContext} from '../contexts/CurrentUserContext.js';
 
-function Card({ card, onCardClick, onCardLike, onCardDelete }) {
+function Card({ card, onCheckImage, onCardClick, onCardLike, onCardDelete }) {
   const currentUser = React.useContext(CurrentUserContext);
 
   const isOwn = card.owner._id === currentUser._id;
@@ -9,6 +10,14 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
 
   const isLiked = card.likes.some((userWhoLiked)=>userWhoLiked._id === currentUser._id);
   const cardButtonLikeClassName = `cards__btn-like ${isLiked ? 'cards__btn-like_active appear': ''}`;
+  const [cardLinkChecked, setCardLinkChecked] = React.useState(card.link);
+
+  React.useEffect(()=>{
+    onCheckImage(cardLinkChecked)
+      .catch(()=> setCardLinkChecked('https://images.unsplash.com/photo-1610513320995-1ad4bbf25e55?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80'));
+  // eslint-disable-next-line
+  },[]);
+  
 
   function handleClick() {
     onCardClick(card);
@@ -26,7 +35,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
     <li className="cards__item appear">
       <img
         className="cards__image"
-        src={`${card.link}`}
+        src={cardLinkChecked}
         alt={`Изображение ${card.name}`}
         onClick={handleClick}
       />

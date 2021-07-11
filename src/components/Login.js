@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import AuthForm from "./AuthForm";
 import CssLoader from "./CssLoader.js";

@@ -50,9 +50,8 @@ function App() {
 
 
   React.useEffect(() => {
-    // setIsLoading(false);
-    handleCheckToken();
     setIsLoading(false);
+    handleCheckToken();
     setIsSuccessInfoToolTip(false);
     // eslint-disable-next-line
   }, []);
@@ -63,13 +62,14 @@ function App() {
         setCurrentUser(userData);
         setCards(cards);
       })
-      .catch((err) => {
+      .catch(async (err) => {
         if (isLoggedIn !== null) {
-          setErrorPopup(err, true);
-          setTimeout(() => setErrorPopup(err, false), 5000);
+          const newErr = await err;
+          setErrorPopup(newErr.message, true);
+          setTimeout(() => setErrorPopup(newErr.message, false), 5000);
         }
       });
-  }, []);
+  }, [isLoggedIn]);
 
   function handleUpdateUser(user) {
     setIsLoading(true);
@@ -83,9 +83,10 @@ function App() {
         });
         closeAllPopups();
       })
-      .catch((err) => {
-        setErrorPopup(err, true);
-        setTimeout(() => setErrorPopup(err, false), 5000);
+      .catch(async (err) => {
+        const newErr = await err;
+        setErrorPopup(newErr.message, true);
+        setTimeout(() => setErrorPopup(newErr.message, false), 5000);
       });
   }
 
@@ -98,9 +99,10 @@ function App() {
           closeAllPopups();
         });
       })
-      .catch(() => {
-        setErrorPopup("Ошибка адреса", true);
-        setTimeout(() => setErrorPopup("Ошибка адреса", false), 5000);
+      .catch(async (err) => {
+        const newErr = await err;
+        setErrorPopup(newErr.message, true);
+        setTimeout(() => setErrorPopup(newErr.message, false), 5000);
       });
   }
 
@@ -123,9 +125,10 @@ function App() {
           closeAllPopups();
         });
       })
-      .catch(() => {
-        setErrorPopup("Ошибка адреса", true);
-        setTimeout(() => setErrorPopup("Ошибка адреса", false), 5000);
+      .catch(async (err) => {
+        const newErr = await err;
+        setErrorPopup(newErr.message, true);
+        setTimeout(() => setErrorPopup(newErr.message, false), 5000);
       });
   }
 
@@ -142,9 +145,10 @@ function App() {
           )
         );
       })
-      .catch((err) => {
-        setErrorPopup(err, true);
-        setTimeout(() => setErrorPopup(err, false), 5000);
+      .catch(async (err) => {
+        const newErr = await err;
+        setErrorPopup(newErr.message, true);
+        setTimeout(() => setErrorPopup(newErr.message, false), 5000);
       });
   }
 
@@ -158,9 +162,10 @@ function App() {
         );
         closeAllPopups();
       })
-      .catch((err) => {
-        setErrorPopup(err, true);
-        setTimeout(() => setErrorPopup(err, false), 5000);
+      .catch(async (err) => {
+        const newErr = await err;
+        setErrorPopup(newErr.message, true);
+        setTimeout(() => setErrorPopup(newErr.message, false), 5000);
       });
   }
 
@@ -206,8 +211,8 @@ function App() {
     setCardToRemove({});
   }
 
-  function setErrorPopup(err, active) {;
-    setError({ errorText: err, isActive: active });
+  function setErrorPopup(message, active) {
+    setError({ errorText: message, isActive: active });
   }
 
 
@@ -249,8 +254,7 @@ function App() {
   ]);
 
   function handleCheckToken() {
-    // setIsLoading(true);
-    setIsLoading(false);
+    setIsLoading(true);
     auth
       .checkToken()
       .then((res) => {
@@ -260,10 +264,10 @@ function App() {
         history.push("/");
       })
       .catch(() => {
+        setIsLoading(false);
         if (isLoggedIn !== null) {
           setIsSuccessInfoToolTip(false);
           setInfoToolTipPopupOpen(true);
-          setIsLoading(false);
         }
       });
   }
@@ -277,7 +281,10 @@ function App() {
         setIsSuccessInfoToolTip(true);
         setInfoToolTipPopupOpen(true);
       })
-      .catch(() => {
+      .catch(async (err) => {
+        const newErr = await err;
+        setErrorPopup(newErr.message, true);
+        setTimeout(() => setErrorPopup(newErr.message, false), 5000);
         setIsSuccessInfoToolTip(false);
         setInfoToolTipPopupOpen(true);
       });
@@ -289,7 +296,10 @@ function App() {
       .then(() => {
         handleCheckToken();
       })
-      .catch(() => {
+      .catch(async (err) => {
+        const newErr = await err;
+        setErrorPopup(newErr.message, true);
+        setTimeout(() => setErrorPopup(newErr.message, false), 5000);
         setIsSuccessInfoToolTip(false);
         setInfoToolTipPopupOpen(true);
       });
@@ -299,7 +309,6 @@ function App() {
     auth
       .logout(userEmail)
       .then(() => {
-        // setIsLoggedIn(false);
         setIsLoggedIn(null);
         history.push("/sign-in");
         setUserEmail("");
@@ -332,6 +341,7 @@ function App() {
             onAddPlace={handleAddPlaceClick}
             onEditAvatar={handleEditAvatarClick}
             onCardClick={handleCardClick}
+            onCheckImage={checkImage}
             cards={cards}
             onCardLike={handleCardLike}
             onCardDelete={confirmCardDelete}

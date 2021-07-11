@@ -1,6 +1,8 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import {useFormAndValidation} from "../utils/useFormAndValidation.js";
+
 
 function AuthForm({
   title,

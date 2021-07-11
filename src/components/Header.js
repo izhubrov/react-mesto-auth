@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import { NavLink, useLocation } from 'react-router-dom';
 import headerLogo from "../images/headerlogo.svg";
